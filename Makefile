@@ -5,10 +5,13 @@ install:
 	npm install -g browserify
 	npm install -g http-server
 
+bundle.js: index.js data.json
+	browserify index.js > bundle.js
+
 .PHONY: clean
 clean:
 	rm -rf node_modules/
 
 .PHONY: run
-run:
-	node_modules/http-server/bin/http-server &
+run: bundle.js
+	http-server
