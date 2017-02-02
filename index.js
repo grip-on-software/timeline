@@ -87,3 +87,10 @@ const project_data = Object.keys(data).map(project => ({
 const element = d3.select('#chart-holder').datum(project_data);
 
 chart(element);
+d3.selectAll("button[data-zoom]").on("click", function clicked() {
+    const svg = element.select("svg");
+    const zoom = element[0][0].zoom;
+    //svg.call(zoom.event); // https://github.com/mbostock/d3/issues/2387
+    zoom.scale(zoom.scale() + Math.pow(2, +this.getAttribute("data-zoom")));
+    svg.transition().call(zoom.event);
+});

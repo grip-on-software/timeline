@@ -10,6 +10,16 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+#chart-canvas {
+	position: relative;
+}
+
+#buttons {
+	position: absolute;
+	right: 16.2rem;
+	top: .2rem;
+}
+
 a {
     color: #ff6e00;
     text-decoration: none;
