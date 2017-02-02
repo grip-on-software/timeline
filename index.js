@@ -74,7 +74,10 @@ const hideTooltip = () => {
 const chart = d3.chart.eventDrops()
     .start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
     .end(new Date())
-    .eventColor(d => colors(d.type))
+    .eventColor(function (d) {
+        d3.select(this).classed(d.type, true);
+        return colors(d.type);
+    })
     .date(d => new Date(d.date))
     .mouseover(showTooltip)
     .mouseout(hideTooltip);
@@ -90,6 +93,19 @@ chart(element);
 
 const zoom = element[0][0].zoom;
 const svg = element.select("svg");
+
+svg.selectAll('.drop-line').each(function draw(data, i) {
+    var drops = d3.select(this);
+    drops.selectAll('.sprint_start,.sprint_end').each(function sprintLineDraw(data) {
+        var drop = d3.select(this);
+        var group = d3.select(this.parentNode.parentNode.parentNode).append('g')
+            .classed('sprint_line', true)
+            .attr('transform', `translate(${-drop.attr('cx')}, ${i*chart.lineHeight()})`);
+        group.append('line').attr('y2', chart.lineHeight()).attr('x2', 0);
+    });
+});
+
+// Zoom buttons
 const center = [zoom.size()[0] / 2, zoom.size()[1] / 2];
 zoom.center(center);
 
