@@ -87,10 +87,36 @@ const project_data = Object.keys(data).map(project => ({
 const element = d3.select('#chart-holder').datum(project_data);
 
 chart(element);
-d3.selectAll("button[data-zoom]").on("click", function clicked() {
-    const svg = element.select("svg");
-    const zoom = element[0][0].zoom;
-    //svg.call(zoom.event); // https://github.com/mbostock/d3/issues/2387
-    zoom.scale(zoom.scale() + Math.pow(2, +this.getAttribute("data-zoom")));
+
+const zoom = element[0][0].zoom;
+const svg = element.select("svg");
+const center = [zoom.size()[0] / 2, zoom.size()[1] / 2];
+zoom.center(center);
+
+d3.selectAll("button[data-zoom-reset]").on("click", function clicked() {
+    zoom.scale(1);
+    zoom.translate([0, 0]);
     svg.transition().call(zoom.event);
 });
+
+d3.selectAll("button[data-zoom]").on("click", function clicked() {
+    // Record the coordinates (in data space) of the center (in screen space).
+    var center0 = zoom.center(), translate0 = zoom.translate(), coordinates0 = coordinates(center0);
+    zoom.scale(zoom.scale() * Math.pow(2, +this.getAttribute("data-zoom")));
+
+    // Translate back to the center.
+    var center1 = point(coordinates0);
+    zoom.translate([translate0[0] + center0[0] - center1[0], translate0[1] + center0[1] - center1[1]]);
+
+    svg.transition().duration(500).call(zoom.event);
+});
+
+function coordinates(point) {
+    var scale = zoom.scale(), translate = zoom.translate();
+    return [(point[0] - translate[0]) / scale, (point[1] - translate[1]) / scale];
+}
+
+function point(coordinates) {
+    var scale = zoom.scale(), translate = zoom.translate();
+    return [coordinates[0] * scale + translate[0], coordinates[1] * scale + translate[1]];
+}
