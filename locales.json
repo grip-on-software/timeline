@@ -19,7 +19,14 @@
             "zoom-in": "Inzoomen",
             "zoom-out": "Uitzoomen",
             "zoom-reset": "Zoom resetten",
-            "credits": "Gebaseerd op %s uitgegeven onder %s, met dank aan %s en %s."
+            "credits": "Gebaseerd op %s uitgegeven onder %s, met dank aan %s en %s.",
+            "tooltip-item-message": "Tijdens sprint '%s' op %s",
+            "tooltip-sprint-message": "Van %s tot %s"
+        },
+        "types": {
+            "sprint_start": "Start van sprint",
+            "sprint_end": "Einde van sprint",
+            "rank_change": "Verandering van rang"
         }
     },
     "en": {
@@ -36,6 +43,15 @@
         "shortDays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         "shortMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        "language": "English"
+        "language": "English",
+        "messages": {
+            "tooltip-item-message": "In sprint '%s' on %s",
+            "tooltip-sprint-message": "From %s to %s"
+        },
+        "types": {
+            "sprint_start": "Sprint start",
+            "sprint_end": "Sprint end",
+            "rank_change": "Rank change"
+        }
     }
 }

@@ -6,12 +6,21 @@ const data = require('./data.json');
 const locales = require('./locales.json');
 
 const localeSpec = locales[window.location.search.substr(1)] || locales.nl;
-
 const locale = d3.locale(localeSpec);
 
-const colors = d3.scale.category10().domain(['sprint_start', 'rank_change', 'sprint_end']);
+const message = (msg, ...args) => {
+    var result = localeSpec.messages && localeSpec.messages[msg];
+    if (result) {
+        result = sprintf.apply(null, [result, ...args]);
+    }
+    return result;
+};
+const item_type = (type) => {
+    return localeSpec.types[type] || type;
+};
 
 const humanizeDate = locale.timeFormat(localeSpec.dateTime);
+const colors = d3.scale.category10().domain(['sprint_start', 'rank_change', 'sprint_end']);
 
 const FONT_SIZE = 16; // in pixels
 const TOOLTIP_WIDTH = 30; // in rem
@@ -59,11 +68,11 @@ const showTooltip = (title, message) => {
 };
 
 const showItemTooltip = item => {
-    showTooltip(item.type, `In sprint '${item.sprint_name}' on <span class="date">${humanizeDate(new Date(item.date))}</span>`);
+    showTooltip(item_type(item.type), message('tooltip-item-message', item.sprint_name, `<span class="date">${humanizeDate(new Date(item.date))}</span>`));
 };
 
 const showSprintTooltip = item => {
-    showTooltip(item.sprint_name, `From <span class="date">${humanizeDate(new Date(item.date))}</span> to <span class="date">${humanizeDate(new Date(item.end_date))}</span>`);
+    showTooltip(item.sprint_name, message('tooltip-sprint-message', `<span class="date">${humanizeDate(new Date(item.date))}</span>`, `<span class="date">${humanizeDate(new Date(item.end_date))}</span>`));
 };
 
 const hideTooltip = () => {
@@ -212,10 +221,9 @@ Object.keys(locales).forEach((key) => {
 
 d3.selectAll("[data-message]").each(function() {
     const msg = this.getAttribute("data-message");
-    var message = localeSpec.messages && localeSpec.messages[msg];
-    if (message) {
-        const children = Array.from(this.children).map((c) => c.outerHTML);
-        message = sprintf.apply(null, [message, ...children]);
-        d3.select(this).html(message);
+    const children = Array.from(this.children).map((c) => c.outerHTML);
+    const replacement = message(msg, ...children);
+    if (replacement) {
+        d3.select(this).html(replacement);
     }
 });
