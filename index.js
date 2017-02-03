@@ -233,6 +233,9 @@ const fillChart = () => {
 };
 
 fillChart();
+d3.select(window).on("resize", () => {
+    requestAnimationFrame(() => fillChart())
+});
 
 const nav = d3.select('nav').append('ul');
 Object.keys(locales).forEach((key) => {
