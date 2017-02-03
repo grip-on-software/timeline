@@ -19,8 +19,10 @@ const item_type = (type) => {
     return localeSpec.types[type] || type;
 };
 
+const types = ['sprint_start', 'rank_change', 'sprint_end'];
+
 const humanizeDate = locale.timeFormat(localeSpec.dateTime);
-const colors = d3.scale.category10().domain(['sprint_start', 'rank_change', 'sprint_end']);
+const colors = d3.scale.category10().domain(types);
 
 const FONT_SIZE = 16; // in pixels
 const TOOLTIP_WIDTH = 30; // in rem
@@ -88,6 +90,7 @@ const makeChart = () => d3.chart.eventDrops()
     .locale(locale)
     .dateFormat(locale.timeFormat(localeSpec.longDate))
     .labelsWidth(100)
+    .margin({top: 40, left: 200, bottom: 30, right: 50})
     .eventColor(d => colors(d.type))
     .date(d => new Date(d.date))
     .mouseover(showItemTooltip)
@@ -121,6 +124,7 @@ const zoomUpdate = (element) => {
         var scale = zoom.scale(), translate = zoom.translate();
         return [coordinates[0] * scale + translate[0], coordinates[1] * scale + translate[1]];
     }
+
     const center = [zoom.size()[0] / 2, zoom.size()[1] / 2];
     zoom.center(center);
 
@@ -147,8 +151,6 @@ const zoomUpdate = (element) => {
 
 const chart = makeChart();
 
-const project_data = getData(data['projects'], d => d)
-const element = d3.select('#chart-holder').datum(project_data);
 const subelement = d3.select('#subchart-holder');
 
 chart.start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
@@ -204,11 +206,33 @@ chart.start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
         });
     });
 
-chart(element);
+var type_filter = {};
+const filterElement = d3.select('#type-filter');
+types.forEach(t => {
+    type_filter[t] = true;
+    const label = filterElement.append('label');
+    label.append('input')
+        .attr('type', 'checkbox')
+        .property('checked', true)
+        .on('change', function() {
+            type_filter[t] = this.checked;
+            fillChart();
+        });
+    label.append('span').text(item_type(t));
+});
 
-zoomer = zoomUpdate(element);
-d3.selectAll("button[data-zoom-reset]").on("click", zoomer.reset);
-d3.selectAll("button[data-zoom]").on("click", function() {zoomer.zoom(+this.getAttribute("data-zoom"))});
+const fillChart = () => {
+    const project_data = getData(data['projects'], d => d.filter(pd => type_filter[pd.type]));
+    const element = d3.select('#chart-holder').datum(project_data);
+
+    chart(element);
+
+    zoomer = zoomUpdate(element);
+    d3.selectAll("button[data-zoom-reset]").on("click", zoomer.reset);
+    d3.selectAll("button[data-zoom]").on("click", function() {zoomer.zoom(+this.getAttribute("data-zoom"))});
+};
+
+fillChart();
 
 const nav = d3.select('nav').append('ul');
 Object.keys(locales).forEach((key) => {

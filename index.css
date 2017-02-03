@@ -56,6 +56,10 @@ h1 {
     color: #323200;
 }
 
+article {
+	padding-bottom: 3rem;
+}
+
 nav {
 	font-size: .8rem;
 	position: absolute;
@@ -84,11 +88,21 @@ nav li.selected a {
 	margin: 0 auto 0 10%;
 }
 
+#type-filter {
+	text-align: right;
+	padding-right: 7rem;
+}
+
+#type-filter input {
+	margin: 0 0.2rem 0 0.6rem;
+}
+
 .sprint {
 	stroke: #000000;
 	fill: #aaaaaa;
 	stroke-width: 1px;
 	fill-opacity: 0.2;
+	cursor: pointer;
 }
 
 .sprint:hover {
