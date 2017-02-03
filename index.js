@@ -1,20 +1,14 @@
 // Based on demo.js from the marmelab/EventDrops GitHub repository, MIT license
 
 const data = require('./data.json');
+const locales = require('./locales.json');
+const localeSpec = locales[window.location.search.substr(1)] || locales.nl;
+
+const locale = d3.locale(localeSpec);
 
 const colors = d3.scale.category10().domain(['sprint_start', 'rank_change', 'sprint_end']);
 
-const humanizeDate = date => {
-    const monthNames = [
-        'Jan.', 'Feb.', 'March', 'Apr.', 'May', 'June',
-        'Jul.', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.',
-    ];
-
-    return `
-        ${monthNames[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}
-        ${date.getHours()}:${date.getMinutes()}
-    `;
-};
+const humanizeDate = locale.timeFormat(localeSpec.dateTime);
 
 const FONT_SIZE = 16; // in pixels
 const TOOLTIP_WIDTH = 30; // in rem
@@ -78,9 +72,75 @@ const hideTooltip = () => {
         .style('opacity', 0);
 };
 
-const chart = d3.chart.eventDrops()
-    .start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
-    .end(new Date())
+const makeChart = () => d3.chart.eventDrops()
+    .locale(locale)
+    .dateFormat(locale.timeFormat(localeSpec.longDate))
+    .labelsWidth(100)
+    .eventColor(d => colors(d.type))
+    .date(d => new Date(d.date))
+    .mouseover(showItemTooltip)
+    .mouseout(hideTooltip);
+
+const getData = (projects_data, filter) => {
+    var result = [];
+    Object.keys(projects_data).forEach(project => {
+        const remaining_data = filter(projects_data[project], project);
+        if (remaining_data) {
+            result.push({
+                name: project,
+                data: remaining_data,
+            });
+        }
+    });
+    return result;
+};
+
+const zoomUpdate = (element) => {
+    const zoom = element[0][0].zoom;
+    zoom.on("zoom.tooltip", hideTooltip);
+    const svg = element.select("svg");
+
+    function coordinates(point) {
+        var scale = zoom.scale(), translate = zoom.translate();
+        return [(point[0] - translate[0]) / scale, (point[1] - translate[1]) / scale];
+    }
+
+    function point(coordinates) {
+        var scale = zoom.scale(), translate = zoom.translate();
+        return [coordinates[0] * scale + translate[0], coordinates[1] * scale + translate[1]];
+    }
+    const center = [zoom.size()[0] / 2, zoom.size()[1] / 2];
+    zoom.center(center);
+
+    // Zoom button handlers
+    return {
+        reset: () => {
+            zoom.scale(1);
+            zoom.translate([0, 0]);
+            svg.transition().call(zoom.event);
+        },
+        zoom: (direction) => {
+            // Record the coordinates (in data space) of the center (in screen space).
+            var center0 = zoom.center(), translate0 = zoom.translate(), coordinates0 = coordinates(center0);
+            zoom.scale(zoom.scale() * Math.pow(2, direction));
+
+            // Translate back to the center.
+            var center1 = point(coordinates0);
+            zoom.translate([translate0[0] + center0[0] - center1[0], translate0[1] + center0[1] - center1[1]]);
+
+            svg.transition().duration(500).call(zoom.event);
+        }
+    };
+};
+
+const chart = makeChart();
+
+const project_data = getData(data['projects'], d => d)
+const element = d3.select('#chart-holder').datum(project_data);
+const subelement = d3.select('#subchart-holder');
+
+chart.start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
+    .end(new Date(data['max_date'][0]))
     .dropsDraw(function (drops, newDrops, scales, configuration, line_count, svg) {
         drops.each(function dropDraw(d, idx) {
             if (d.type == "sprint_start") {
@@ -92,7 +152,7 @@ const chart = d3.chart.eventDrops()
                 sprints.enter().insert('g', () => this.parentNode.parentNode)
                     .attr('id', line_id).classed('sprints', true)
                     .attr('clip-path', 'url(#drops-container-clipper)')
-                    .attr('transform', `translate(10, ${line_count*configuration.lineHeight})`);
+                    .attr('transform', `translate(0, ${line_count*configuration.lineHeight})`);
 
                 var sprint = sprints.selectAll('#' + id).data([idx]);
                 sprint.enter().append('rect')
@@ -101,11 +161,28 @@ const chart = d3.chart.eventDrops()
                         id: id,
                         height: configuration.lineHeight
                     })
-                    .on('mouseover', item => showSprintTooltip(d))
+                    .on('click', function() {
+                        d3.select('.sprint.selected').classed('selected', false);
+                        const subdata = getData(data['projects'], (pdata, project) => {
+                            if (project == d.project_name) {
+                                return pdata.filter(pd => pd.sprint_name == d.sprint_name);
+                            }
+                            return false;
+                        });
+                        if (subdata) {
+                            subelement.datum(subdata);
+                            const subchart = makeChart();
+                            subchart.start(new Date(d.date)).end(new Date(d.end_date));
+                            subchart(subelement);
+                            zoomUpdate(subelement).reset();
+                            d3.select(this).classed('selected', true);
+                        }
+                    })
+                    .on('mouseover', () => showSprintTooltip(d))
                     .on('mouseout', hideTooltip)
 
                 sprint.attr({
-                    x: drop.attr('cx'),
+                    x: +drop.attr('cx') + 10,
                     width: scales.x(new Date(d.end_date)) - scales.x(new Date(d.date))
                 });
 
@@ -113,53 +190,11 @@ const chart = d3.chart.eventDrops()
                 sprints.exit();
             }
         });
-    })
-    .eventColor(d => colors(d.type))
-    .date(d => new Date(d.date))
-    .mouseover(showItemTooltip)
-    .mouseout(hideTooltip);
-
-const project_data = Object.keys(data).map(project => ({
-    name: project,
-    data: data[project],
-}));
-
-const element = d3.select('#chart-holder').datum(project_data);
+    });
 
 chart(element);
 
-const zoom = element[0][0].zoom;
-zoom.on("zoom.tooltip", hideTooltip);
-const svg = element.select("svg");
+zoomer = zoomUpdate(element);
+d3.selectAll("button[data-zoom-reset]").on("click", zoomer.reset);
+d3.selectAll("button[data-zoom]").on("click", function() {zoomer.zoom(+this.getAttribute("data-zoom"))});
 
-// Zoom buttons
-const center = [zoom.size()[0] / 2, zoom.size()[1] / 2];
-zoom.center(center);
-
-d3.selectAll("button[data-zoom-reset]").on("click", function clicked() {
-    zoom.scale(1);
-    zoom.translate([0, 0]);
-    svg.transition().call(zoom.event);
-});
-
-d3.selectAll("button[data-zoom]").on("click", function clicked() {
-    // Record the coordinates (in data space) of the center (in screen space).
-    var center0 = zoom.center(), translate0 = zoom.translate(), coordinates0 = coordinates(center0);
-    zoom.scale(zoom.scale() * Math.pow(2, +this.getAttribute("data-zoom")));
-
-    // Translate back to the center.
-    var center1 = point(coordinates0);
-    zoom.translate([translate0[0] + center0[0] - center1[0], translate0[1] + center0[1] - center1[1]]);
-
-    svg.transition().duration(500).call(zoom.event);
-});
-
-function coordinates(point) {
-    var scale = zoom.scale(), translate = zoom.translate();
-    return [(point[0] - translate[0]) / scale, (point[1] - translate[1]) / scale];
-}
-
-function point(coordinates) {
-    var scale = zoom.scale(), translate = zoom.translate();
-    return [coordinates[0] * scale + translate[0], coordinates[1] * scale + translate[1]];
-}

@@ -7,7 +7,7 @@ install:
 	npm install browserify
 	npm install http-server
 
-bundle.js: index.js data.json
+bundle.js: index.js data.json locales.json
 	./node_modules/browserify/bin/cmd.js index.js > bundle.js
 
 .PHONY: clean
