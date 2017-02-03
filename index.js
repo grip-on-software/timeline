@@ -110,7 +110,7 @@ const getData = (projects_data, filter) => {
     return result;
 };
 
-const zoomUpdate = (element) => {
+const zoomUpdate = (element, old_zoom) => {
     const zoom = element[0][0].zoom;
     zoom.on("zoom.tooltip", hideTooltip);
     const svg = element.select("svg");
@@ -125,8 +125,15 @@ const zoomUpdate = (element) => {
         return [coordinates[0] * scale + translate[0], coordinates[1] * scale + translate[1]];
     }
 
-    const center = [zoom.size()[0] / 2, zoom.size()[1] / 2];
-    zoom.center(center);
+    if (old_zoom) {
+        zoom.center(old_zoom.center());
+        zoom.scale(old_zoom.scale());
+        zoom.translate(old_zoom.translate());
+    }
+    else {
+        const center = [zoom.size()[0] / 2, zoom.size()[1] / 2];
+        zoom.center(center);
+    }
 
     // Zoom button handlers
     return {
@@ -224,10 +231,18 @@ types.forEach(t => {
 const fillChart = () => {
     const project_data = getData(data['projects'], d => d.filter(pd => type_filter[pd.type]));
     const element = d3.select('#chart-holder').datum(project_data);
+    var zoomer;
 
-    chart(element);
+    if (element[0][0].zoom) {
+        const old_zoom = element[0][0].zoom;
+        chart(element);
+        zoomer = zoomUpdate(element, old_zoom);
+    }
+    else {
+        chart(element);
+        zoomer = zoomUpdate(element);
+    }
 
-    zoomer = zoomUpdate(element);
     d3.selectAll("button[data-zoom-reset]").on("click", null).on("click", zoomer.reset);
     d3.selectAll("button[data-zoom]").on("click", null).on("click", function() {zoomer.zoom(+this.getAttribute("data-zoom"))});
 };
