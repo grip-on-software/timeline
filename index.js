@@ -228,8 +228,8 @@ const fillChart = () => {
     chart(element);
 
     zoomer = zoomUpdate(element);
-    d3.selectAll("button[data-zoom-reset]").on("click", zoomer.reset);
-    d3.selectAll("button[data-zoom]").on("click", function() {zoomer.zoom(+this.getAttribute("data-zoom"))});
+    d3.selectAll("button[data-zoom-reset]").on("click", null).on("click", zoomer.reset);
+    d3.selectAll("button[data-zoom]").on("click", null).on("click", function() {zoomer.zoom(+this.getAttribute("data-zoom"))});
 };
 
 fillChart();
