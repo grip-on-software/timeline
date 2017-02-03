@@ -65,6 +65,10 @@ const showItemTooltip = item => {
     showTooltip(item.type, `In sprint '${item.sprint_name}' on <span class="date">${humanizeDate(new Date(item.date))}</span>`);
 };
 
+const showSprintTooltip = item => {
+    showTooltip(item.sprint_name, `From <span class="date">${humanizeDate(new Date(item.date))}</span> to <span class="date">${humanizeDate(new Date(item.end_date))}</span>`);
+};
+
 const hideTooltip = () => {
     d3.select('.tooltip').transition()
         .duration(200)
@@ -85,22 +89,25 @@ const chart = d3.chart.eventDrops()
                 var id = 'line-drop-' + line_count + '-' + idx;
 
                 var sprints = d3.select(svg[0][0].parentNode).selectAll('#' + line_id).data([line_count]);
-                sprints.enter().append('g')
+                sprints.enter().insert('g', () => this.parentNode.parentNode)
                     .attr('id', line_id).classed('sprints', true)
                     .attr('clip-path', 'url(#drops-container-clipper)')
                     .attr('transform', `translate(10, ${line_count*configuration.lineHeight})`);
 
                 var sprint = sprints.selectAll('#' + id).data([idx]);
-                console.log(d.end_date);
                 sprint.enter().append('rect')
                     .classed('sprint', true)
                     .attr({
                         id: id,
-                        height: configuration.lineHeight,
-                        width: scales.x(new Date(d.end_date)) - scales.x(new Date(d.date))
-                    });
+                        height: configuration.lineHeight
+                    })
+                    .on('mouseover', item => showSprintTooltip(d))
+                    .on('mouseout', hideTooltip)
 
-                sprint.attr('x', drop.attr('cx'));
+                sprint.attr({
+                    x: drop.attr('cx'),
+                    width: scales.x(new Date(d.end_date)) - scales.x(new Date(d.date))
+                });
 
                 sprint.exit().remove();
                 sprints.exit();
@@ -122,6 +129,7 @@ const element = d3.select('#chart-holder').datum(project_data);
 chart(element);
 
 const zoom = element[0][0].zoom;
+zoom.on("zoom.tooltip", hideTooltip);
 const svg = element.select("svg");
 
 // Zoom buttons
