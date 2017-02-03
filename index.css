@@ -56,6 +56,25 @@ h1 {
     color: #323200;
 }
 
+nav {
+	font-size: .8rem;
+	position: absolute;
+	top: 1.5rem;
+	right: 1.5rem;
+}
+
+nav li {
+	list-style: none;
+}
+
+nav li.selected::before {
+	content: "\232A\00A0";
+}
+
+nav li.selected a {
+	color: #000000;
+}
+
 #chart-holder {
 	width: 90%;
 }

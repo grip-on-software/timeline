@@ -3,6 +3,7 @@ RELEASE=v0.3.0-alpha1-lhelwerd6
 .PHONY: install
 install:
 	npm install d3
+	npm install sprintf-js
 	npm install https://github.com/lhelwerd/EventDrops/releases/download/$(RELEASE)/$(RELEASE).tar.gz
 	npm install browserify
 	npm install http-server

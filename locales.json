@@ -12,7 +12,15 @@
         "days": ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"],
         "shortDays": ["zo", "ma", "di", "wo", "do", "vr", "za"],
         "months": ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"],
-        "shortMonths": ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"]
+        "shortMonths": ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"],
+        "language": "Nederlands",
+        "messages": {
+            "timeline": "Tijdslijn",
+            "zoom-in": "Inzoomen",
+            "zoom-out": "Uitzoomen",
+            "zoom-reset": "Zoom resetten",
+            "credits": "Gebaseerd op %s uitgegeven onder %s, met dank aan %s en %s."
+        }
     },
     "en": {
         "decimal": ".",
@@ -27,6 +35,7 @@
         "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         "shortDays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        "shortMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        "shortMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        "language": "English"
     }
 }

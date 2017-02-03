@@ -1,7 +1,10 @@
 // Based on demo.js from the marmelab/EventDrops GitHub repository, MIT license
 
+const sprintf = require('sprintf-js').sprintf;
+
 const data = require('./data.json');
 const locales = require('./locales.json');
+
 const localeSpec = locales[window.location.search.substr(1)] || locales.nl;
 
 const locale = d3.locale(localeSpec);
@@ -198,3 +201,21 @@ zoomer = zoomUpdate(element);
 d3.selectAll("button[data-zoom-reset]").on("click", zoomer.reset);
 d3.selectAll("button[data-zoom]").on("click", function() {zoomer.zoom(+this.getAttribute("data-zoom"))});
 
+const nav = d3.select('nav').append('ul');
+Object.keys(locales).forEach((key) => {
+    const item = nav.append('li');
+    item.append('a').attr({href: '/index.html?' + key, hreflang: key}).text(locales[key].language);
+    if (locales[key] == localeSpec) {
+        item.classed('selected', true);
+    }
+});
+
+d3.selectAll("[data-message]").each(function() {
+    const msg = this.getAttribute("data-message");
+    var message = localeSpec.messages && localeSpec.messages[msg];
+    if (message) {
+        const children = Array.from(this.children).map((c) => c.outerHTML);
+        message = sprintf.apply(null, [message, ...children]);
+        d3.select(this).html(message);
+    }
+});
