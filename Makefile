@@ -1,4 +1,4 @@
-RELEASE=v0.3.0-alpha1-lhelwerd
+RELEASE=v0.3.0-alpha1-lhelwerd6
 
 .PHONY: install
 install:
@@ -12,7 +12,7 @@ bundle.js: index.js data.json
 
 .PHONY: clean
 clean:
-	rm -rf node_modules/
+	rm -rf node_modules/ bundle.js
 
 .PHONY: run
 run: bundle.js

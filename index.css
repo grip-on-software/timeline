@@ -42,9 +42,15 @@ h1 {
     color: #323200;
 }
 
-.sprint_line {
+.sprint {
 	stroke: #000000;
+	fill: #aaaaaa;
 	stroke-width: 1px;
+	fill-opacity: 0.05;
+}
+
+.sprint:hover {
+	fill-opacity: 0.5;
 }
 
 .extremum {

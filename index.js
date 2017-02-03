@@ -19,8 +19,7 @@ const humanizeDate = date => {
 const FONT_SIZE = 16; // in pixels
 const TOOLTIP_WIDTH = 30; // in rem
 
-// we're gonna create a tooltip per drop to prevent from transition issues
-const showTooltip = item => {
+const showTooltip = (title, message) => {
     d3.select('body').selectAll('.tooltip').remove();
 
     const tooltip = d3.select('body')
@@ -48,9 +47,9 @@ const showTooltip = item => {
     tooltip.html(`
             <div class="commit">
                 <div class="content">
-                    <h3 class="message">${item.type}</h3>
+                    <h3 class="message">${title}</h3>
                     <p>
-                        In sprint '${item.sprint_name}' on <span class="date">${humanizeDate(new Date(item.date))}</span>
+                        ${message}
                     </p>
                 </div>
             </div>
@@ -60,6 +59,10 @@ const showTooltip = item => {
             left: `${left}px`,
             top: (d3.event.pageY + 16) + 'px',
         });
+};
+
+const showItemTooltip = item => {
+    showTooltip(item.type, `In sprint '${item.sprint_name}' on <span class="date">${humanizeDate(new Date(item.date))}</span>`);
 };
 
 const hideTooltip = () => {
@@ -74,12 +77,39 @@ const hideTooltip = () => {
 const chart = d3.chart.eventDrops()
     .start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
     .end(new Date())
-    .eventColor(function (d) {
-        d3.select(this).classed(d.type, true);
-        return colors(d.type);
+    .dropsDraw(function (drops, newDrops, scales, configuration, line_count, svg) {
+        drops.each(function dropDraw(d, idx) {
+            if (d.type == "sprint_start") {
+                var drop = d3.select(this);
+                var line_id = 'sprint-lines-' + line_count
+                var id = 'line-drop-' + line_count + '-' + idx;
+
+                var sprints = d3.select(svg[0][0].parentNode).selectAll('#' + line_id).data([line_count]);
+                sprints.enter().append('g')
+                    .attr('id', line_id).classed('sprints', true)
+                    .attr('clip-path', 'url(#drops-container-clipper)')
+                    .attr('transform', `translate(10, ${line_count*configuration.lineHeight})`);
+
+                var sprint = sprints.selectAll('#' + id).data([idx]);
+                console.log(d.end_date);
+                sprint.enter().append('rect')
+                    .classed('sprint', true)
+                    .attr({
+                        id: id,
+                        height: configuration.lineHeight,
+                        width: scales.x(new Date(d.end_date)) - scales.x(new Date(d.date))
+                    });
+
+                sprint.attr('x', drop.attr('cx'));
+
+                sprint.exit().remove();
+                sprints.exit();
+            }
+        });
     })
+    .eventColor(d => colors(d.type))
     .date(d => new Date(d.date))
-    .mouseover(showTooltip)
+    .mouseover(showItemTooltip)
     .mouseout(hideTooltip);
 
 const project_data = Object.keys(data).map(project => ({
@@ -93,17 +123,6 @@ chart(element);
 
 const zoom = element[0][0].zoom;
 const svg = element.select("svg");
-
-svg.selectAll('.drop-line').each(function draw(data, i) {
-    var drops = d3.select(this);
-    drops.selectAll('.sprint_start,.sprint_end').each(function sprintLineDraw(data) {
-        var drop = d3.select(this);
-        var group = d3.select(this.parentNode.parentNode.parentNode).append('g')
-            .classed('sprint_line', true)
-            .attr('transform', `translate(${-drop.attr('cx')}, ${i*chart.lineHeight()})`);
-        group.append('line').attr('y2', chart.lineHeight()).attr('x2', 0);
-    });
-});
 
 // Zoom buttons
 const center = [zoom.size()[0] / 2, zoom.size()[1] / 2];
