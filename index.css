@@ -56,6 +56,14 @@ h1 {
     color: #323200;
 }
 
+h2 {
+	margin: 0 auto 1rem 6rem;
+	padding-top: 2rem;
+	font-weight: normal;
+	font-size: 1.5rem;
+	color: #222200;
+}
+
 article {
 	padding-bottom: 3rem;
 }

@@ -26,7 +26,8 @@
         "types": {
             "sprint_start": "Start van sprint",
             "sprint_end": "Einde van sprint",
-            "rank_change": "Verandering van rang"
+            "rank_change": "Verandering van rang",
+            "storypoint_change": "Verandering van punten"
         }
     },
     "en": {
@@ -51,7 +52,8 @@
         "types": {
             "sprint_start": "Sprint start",
             "sprint_end": "Sprint end",
-            "rank_change": "Rank change"
+            "rank_change": "Rank change",
+            "storypoint_change": "Story point change"
         }
     }
 }

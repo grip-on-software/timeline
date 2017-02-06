@@ -19,7 +19,7 @@ const item_type = (type) => {
     return localeSpec.types[type] || type;
 };
 
-const types = ['sprint_start', 'rank_change', 'sprint_end'];
+const types = ['sprint_start', 'rank_change', 'storypoint_change', 'sprint_end'];
 
 const humanizeDate = locale.timeFormat(localeSpec.dateTime);
 const colors = d3.scale.category10().domain(types);
@@ -42,15 +42,7 @@ const showTooltip = (title, message) => {
             d3.select(this).style('block');
         })
         .style('opacity', 1);
-
-    const rightOrLeftLimit = FONT_SIZE * TOOLTIP_WIDTH;
-    const direction = d3.event.pageX > rightOrLeftLimit ? 'right' : 'left';
-
-    const ARROW_MARGIN = 1.65;
-    const ARROW_WIDTH = FONT_SIZE;
-    const left = direction === 'right' ?
-        d3.event.pageX - rightOrLeftLimit :
-        d3.event.pageX - ARROW_MARGIN * FONT_SIZE - ARROW_WIDTH / 2;
+    tooltip.on('mouseout', hideTooltip);
 
     tooltip.html(`
             <div class="commit">
@@ -61,11 +53,27 @@ const showTooltip = (title, message) => {
                     </p>
                 </div>
             </div>
-        `)
+        `);
+
+    setTooltipLocation(d3.event);
+};
+
+const setTooltipLocation = (event) => {
+    const rightOrLeftLimit = FONT_SIZE * TOOLTIP_WIDTH;
+    const direction = event.pageX > rightOrLeftLimit ? 'right' : 'left';
+
+    const ARROW_MARGIN = 1.65;
+    const ARROW_WIDTH = FONT_SIZE;
+    const left = direction === 'right' ?
+        event.pageX - rightOrLeftLimit :
+        event.pageX - ARROW_MARGIN * FONT_SIZE - ARROW_WIDTH / 2;
+
+    d3.select('.tooltip')
+        .classed(direction === 'right' ? 'left' : 'right', false)
         .classed(direction, true)
         .style({
             left: `${left}px`,
-            top: (d3.event.pageY + 16) + 'px',
+            top: (event.pageY + 16) + 'px',
         });
 };
 
@@ -158,6 +166,7 @@ const zoomUpdate = (element, old_zoom) => {
 
 const chart = makeChart();
 
+const subtitle = d3.select('#subchart-title');
 const subelement = d3.select('#subchart-holder');
 
 chart.start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
@@ -191,6 +200,7 @@ chart.start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
                             return false;
                         });
                         if (subdata) {
+                            subtitle.text(d.sprint_name);
                             subelement.datum(subdata);
                             const subchart = makeChart();
                             subchart.start(new Date(d.date)).end(new Date(d.end_date));
@@ -201,6 +211,10 @@ chart.start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
                     })
                     .on('mouseover', () => showSprintTooltip(d))
                     .on('mouseout', hideTooltip)
+                    .on('mousemove', () => {
+                        var event = d3.event;
+                        requestAnimationFrame(() => setTooltipLocation(event))
+                    });
 
                 sprint.attr({
                     x: +drop.attr('cx') + 10,
@@ -224,6 +238,15 @@ types.forEach(t => {
         .on('change', function() {
             type_filter[t] = this.checked;
             fillChart();
+        });
+    label.append('svg').classed('sample', true).attr({width: 10, height: 10})
+        .append('circle')
+        .classed('drop', true)
+        .attr({
+            r: 5,
+            cx: 5,
+            cy: 5,
+            fill: colors(t)
         });
     label.append('span').text(item_type(t));
 });
