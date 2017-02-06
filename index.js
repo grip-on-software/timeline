@@ -5,6 +5,8 @@ const d3 = require('d3');
 require('event-drops');
 require('event-drops/style.css');
 
+const weekday = require('./weekday');
+
 const data = require('./data.json');
 const locales = require('./locales.json');
 
@@ -100,15 +102,46 @@ const hideTooltip = () => {
         .style('opacity', 0);
 };
 
+const tf = locale.timeFormat(localeSpec.longDate);
+const dateFormat = (d) => {
+    if (typeof d === "number") {
+        d = weekday.invert(d);
+    }
+    return tf(d);
+};
+
 const makeChart = () => d3.chart.eventDrops()
     .locale(locale)
-    .dateFormat(locale.timeFormat(localeSpec.longDate))
+    .dateFormat(dateFormat)
     .labelsWidth(100)
     .margin({top: 40, left: 200, bottom: 30, right: 50})
     .eventColor(d => colors(d.type))
     .date(d => new Date(d.date))
     .mouseover(showItemTooltip)
-    .mouseout(hideTooltip);
+    .mouseout(hideTooltip)
+    .xScale((scale) => {
+        const templateScale = d3.scale.linear();
+        var newScale = function(x) {
+            if (typeof x === "number") {
+                return templateScale(x);
+            }
+            return templateScale(weekday(x));
+        };
+        for (var prop in templateScale) {
+            newScale[prop] = templateScale[prop];
+        }
+
+        newScale.range(scale.range())
+            .domain(scale.domain().map(d => weekday(d)));
+
+        newScale.invert = weekday.invert;
+        newScale.ticks = scale.ticks(interval, step);
+        return newScale;
+    })
+    .axisFormat((axis) => {
+        const oldFormat = axis.tickFormat();
+        axis.tickFormat(d => oldFormat(weekday.invert(d)));
+    });
 
 const getData = (projects_data, filter) => {
     var result = [];
