@@ -19,7 +19,10 @@ const item_type = (type) => {
     return localeSpec.types[type] || type;
 };
 
-const types = ['sprint_start', 'rank_change', 'storypoint_change', 'sprint_end'];
+const types = [
+    'sprint_start', 'rank_change', 'storypoint_change',
+    'red_metric', 'impediment', 'sprint_end'
+];
 
 const humanizeDate = locale.timeFormat(localeSpec.dateTime);
 const colors = d3.scale.category10().domain(types);
@@ -238,15 +241,18 @@ types.forEach(t => {
         .on('change', function() {
             type_filter[t] = this.checked;
             fillChart();
+            d3.select(this.parentNode).select('.sample circle')
+                .attr('fill', this.checked ? colors(t) : 'transparent');
         });
-    label.append('svg').classed('sample', true).attr({width: 10, height: 10})
+    label.append('svg').classed('sample', true).attr({width: 12, height: 12})
         .append('circle')
         .classed('drop', true)
         .attr({
             r: 5,
-            cx: 5,
-            cy: 5,
-            fill: colors(t)
+            cx: 6,
+            cy: 6,
+            fill: colors(t),
+            stroke: colors(t)
         });
     label.append('span').text(item_type(t));
 });

@@ -102,7 +102,11 @@ nav li.selected a {
 }
 
 #type-filter input {
-	margin: 0 0.2rem 0 0.6rem;
+	visibility: hidden;
+}
+
+#type-filter svg {
+	margin: 0 0.3rem 0 0.3rem;
 }
 
 .sprint {
