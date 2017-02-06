@@ -140,6 +140,7 @@ const zoomUpdate = (element, old_zoom) => {
         zoom.center(old_zoom.center());
         zoom.scale(old_zoom.scale());
         zoom.translate(old_zoom.translate());
+        svg.call(zoom.event);
     }
     else {
         const center = [zoom.size()[0] / 2, zoom.size()[1] / 2];
