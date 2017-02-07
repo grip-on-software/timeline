@@ -1,3 +1,5 @@
+LIBS=$(addprefix lib/,index.js tooltip.js weekday.js zoom.js)
+
 .PHONY: install
 install:
 	npm install
@@ -5,7 +7,7 @@ install:
 .PHONY: build
 build: public/bundle.js
 	
-public/bundle.js: lib/index.js lib/tooltip.js lib/weekday.js data.json locales.json
+public/bundle.js: $(LIBS) data.json locales.json
 	./node_modules/webpack/bin/webpack.js --progress --devtool source-map lib/index.js public/bundle.js
 
 .PHONY: clean
