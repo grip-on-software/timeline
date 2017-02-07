@@ -8,11 +8,11 @@
     "index.*"
   ],
   "scripts": {
-    "prepublish": "make bundle.js",
+    "prepublish": "make build",
     "start": "make run"
   },
   "dependencies": {
-    "event-drops": "https://github.com/lhelwerd/EventDrops/releases/download/v0.3.0-alpha1-lhelwerd6/v0.3.0-alpha1-lhelwerd6.tar.gz",
+    "event-drops": "https://github.com/lhelwerd/EventDrops/releases/download/v0.3.0-alpha1-lhelwerd7/release.tar.gz",
     "d3": "3.5.17",
     "sprintf-js": "1.0.3"
   },

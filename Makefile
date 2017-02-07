@@ -2,13 +2,16 @@
 install:
 	npm install
 
-bundle.js: index.js weekday.js data.json locales.json
-	./node_modules/webpack/bin/webpack.js --progress --devtool source-map index.js bundle.js
+.PHONY: build
+build: public/bundle.js
+	
+public/bundle.js: index.js weekday.js data.json locales.json
+	./node_modules/webpack/bin/webpack.js --progress --devtool source-map index.js public/bundle.js
 
 .PHONY: clean
 clean:
-	rm -rf node_modules/ bundle.js
+	rm -rf node_modules/ public/bundle.js public/bundle.js.map
 
 .PHONY: run
-run: bundle.js
-	./node_modules/http-server/bin/http-server
+run: public/bundle.js
+	./node_modules/http-server/bin/http-server public/
