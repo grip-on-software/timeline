@@ -5,7 +5,7 @@ install:
 .PHONY: build
 build: public/bundle.js
 	
-public/bundle.js: lib/index.js lib/weekday.js data.json locales.json
+public/bundle.js: lib/index.js lib/tooltip.js lib/weekday.js data.json locales.json
 	./node_modules/webpack/bin/webpack.js --progress --devtool source-map lib/index.js public/bundle.js
 
 .PHONY: clean
