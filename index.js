@@ -102,12 +102,21 @@ const hideTooltip = () => {
         .style('opacity', 0);
 };
 
+const updateChart = () => {
+    const element = d3.select('.sprint.selected');
+    const sprintId = element.empty() ? null : element.attr('id');
+    fillChart();
+
+    if (sprintId !== null) {
+        selectSprint(d3.select('#' + sprintId));
+    }
+};
+
 var chart;
 var weekdayScale = true;
 d3.select('[data-weekday-scale]').property('checked', weekdayScale).on('change', function() {
     weekdayScale = this.checked;
     buildMainChart();
-    fillChart();
 });
 
 const tf = locale.timeFormat(localeSpec.longDate);
@@ -222,6 +231,26 @@ const zoomUpdate = (element, old_zoom) => {
 const subtitle = d3.select('#subchart-title');
 const subelement = d3.select('#subchart-holder');
 
+const selectSprint = (element) => {
+    var d = element.data()[0];
+    d3.select('.sprint.selected').classed('selected', false);
+    const subdata = getData(data['projects'], (pdata, project) => {
+        if (project == d.project_name) {
+            return pdata.filter(pd => pd.sprint_name == d.sprint_name);
+        }
+        return false;
+    });
+    if (subdata) {
+        subtitle.text(d.sprint_name);
+        subelement.datum(subdata);
+        const subchart = makeChart();
+        subchart.start(new Date(d.date)).end(new Date(d.end_date));
+        subchart(subelement);
+        zoomUpdate(subelement).reset();
+        element.classed('selected', true);
+    }
+};
+
 const buildMainChart = () => {
     chart = makeChart();
 
@@ -231,7 +260,7 @@ const buildMainChart = () => {
             drops.each(function dropDraw(d, idx) {
                 if (d.type == "sprint_start") {
                     var drop = d3.select(this);
-                    var line_id = 'sprint-lines-' + line_count
+                    var line_id = 'sprint-lines-' + line_count;
                     var id = 'line-drop-' + line_count + '-' + idx;
 
                     var sprints = d3.select(svg[0][0].parentNode).selectAll('#' + line_id).data([line_count]);
@@ -240,7 +269,7 @@ const buildMainChart = () => {
                         .attr('clip-path', 'url(#drops-container-clipper)')
                         .attr('transform', `translate(0, ${line_count*configuration.lineHeight})`);
 
-                    var sprint = sprints.selectAll('#' + id).data([idx]);
+                    var sprint = sprints.selectAll('#' + id).data([d]);
                     sprint.enter().append('rect')
                         .classed('sprint', true)
                         .attr({
@@ -248,22 +277,7 @@ const buildMainChart = () => {
                             height: configuration.lineHeight
                         })
                         .on('click', function() {
-                            d3.select('.sprint.selected').classed('selected', false);
-                            const subdata = getData(data['projects'], (pdata, project) => {
-                                if (project == d.project_name) {
-                                    return pdata.filter(pd => pd.sprint_name == d.sprint_name);
-                                }
-                                return false;
-                            });
-                            if (subdata) {
-                                subtitle.text(d.sprint_name);
-                                subelement.datum(subdata);
-                                const subchart = makeChart();
-                                subchart.start(new Date(d.date)).end(new Date(d.end_date));
-                                subchart(subelement);
-                                zoomUpdate(subelement).reset();
-                                d3.select(this).classed('selected', true);
-                            }
+                            selectSprint(d3.select(this));
                         })
                         .on('mouseover', () => showSprintTooltip(d))
                         .on('mouseout', hideTooltip)
@@ -296,7 +310,7 @@ types.forEach(t => {
         .property('checked', true)
         .on('change', function() {
             type_filter[t] = this.checked;
-            fillChart();
+            updateChart();
             d3.select(this.parentNode).select('.sample circle')
                 .attr('fill', this.checked ? colors(t) : 'transparent');
         });
@@ -334,7 +348,7 @@ const fillChart = () => {
 
 fillChart();
 d3.select(window).on("resize", () => {
-    requestAnimationFrame(() => fillChart())
+    requestAnimationFrame(() => updateChart())
 });
 
 const nav = d3.select('nav').append('ul');
