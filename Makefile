@@ -1,4 +1,4 @@
-LIBS=$(addprefix lib/,index.js tooltip.js weekday.js zoom.js)
+LIBS=$(addprefix lib/,index.js locales.js tooltip.js weekday.js zoom.js)
 
 .PHONY: install
 install:
