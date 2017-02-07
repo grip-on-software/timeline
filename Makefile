@@ -1,15 +1,9 @@
-RELEASE=v0.3.0-alpha1-lhelwerd6
-
 .PHONY: install
 install:
-	npm install d3
-	npm install sprintf-js
-	npm install https://github.com/lhelwerd/EventDrops/releases/download/$(RELEASE)/$(RELEASE).tar.gz
-	npm install browserify
-	npm install http-server
+	npm install
 
 bundle.js: index.js data.json locales.json
-	./node_modules/browserify/bin/cmd.js index.js > bundle.js
+	./node_modules/webpack/bin/webpack.js --progress --devtool source-map index.js bundle.js
 
 .PHONY: clean
 clean:

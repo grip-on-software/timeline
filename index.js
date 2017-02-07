@@ -1,6 +1,9 @@
 // Based on demo.js from the marmelab/EventDrops GitHub repository, MIT license
 
 const sprintf = require('sprintf-js').sprintf;
+const d3 = require('d3');
+require('event-drops');
+require('event-drops/style.css');
 
 const data = require('./data.json');
 const locales = require('./locales.json');

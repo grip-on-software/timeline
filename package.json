@@ -1,0 +1,26 @@
+{
+  "name": "@hqlib/timeline",
+  "version": "0.0.1",
+  "description": "A time based interactive visualization of Scrum sprint data.",
+  "license": "MIT",
+  "author": "Leon Helwerda <l.s.helwerda@liacs.leidenuniv.nl>",
+  "files": [
+    "index.*"
+  ],
+  "scripts": {
+    "prepublish": "make bundle.js",
+    "start": "make run"
+  },
+  "dependencies": {
+    "event-drops": "https://github.com/lhelwerd/EventDrops/releases/download/v0.3.0-alpha1-lhelwerd6/v0.3.0-alpha1-lhelwerd6.tar.gz",
+    "d3": "3.5.17",
+    "sprintf-js": "1.0.3"
+  },
+  "devDependencies": {
+    "css-loader": "^0.26.1",
+    "http-server": "latest",
+    "json-loader": "^0.5.4",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.3"
+  }
+}
