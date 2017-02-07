@@ -21,7 +21,8 @@
             "zoom-reset": "Zoom resetten",
             "credits": "Gebaseerd op %s uitgegeven onder %s, met dank aan %s en %s.",
             "tooltip-item-message": "Tijdens sprint '%s' op %s",
-            "tooltip-sprint-message": "Van %s tot %s"
+            "tooltip-sprint-message": "Van %s tot %s",
+            "weekday-scale": "Schaal zonder weekends"
         },
         "types": {
             "sprint_start": "Start van sprint",
@@ -49,7 +50,8 @@
         "language": "English",
         "messages": {
             "tooltip-item-message": "In sprint '%s' on %s",
-            "tooltip-sprint-message": "From %s to %s"
+            "tooltip-sprint-message": "From %s to %s",
+            "weekday-scale": "Scale without weekends"
         },
         "types": {
             "sprint_start": "Sprint start",

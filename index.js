@@ -5,6 +5,8 @@ const d3 = require('d3');
 require('event-drops');
 require('event-drops/style.css');
 
+const weekday = require('./weekday');
+
 const data = require('./data.json');
 const locales = require('./locales.json');
 
@@ -100,15 +102,71 @@ const hideTooltip = () => {
         .style('opacity', 0);
 };
 
+const updateChart = () => {
+    const element = d3.select('.sprint.selected');
+    const sprintId = element.empty() ? null : element.attr('id');
+    fillChart();
+
+    if (sprintId !== null) {
+        selectSprint(d3.select('#' + sprintId));
+    }
+};
+
+var chart;
+var weekdayScale = false;
+d3.select('[data-weekday-scale]').property('checked', weekdayScale).on('change', function() {
+    weekdayScale = this.checked;
+    buildMainChart();
+    updateChart();
+});
+
+const tf = locale.timeFormat(localeSpec.longDate);
+const dateFormat = (d) => {
+    if (typeof d === "number") {
+        d = weekday.invert(d);
+    }
+    return tf(d);
+};
+
 const makeChart = () => d3.chart.eventDrops()
     .locale(locale)
-    .dateFormat(locale.timeFormat(localeSpec.longDate))
+    .dateFormat(dateFormat)
     .labelsWidth(100)
     .margin({top: 40, left: 200, bottom: 30, right: 50})
     .eventColor(d => colors(d.type))
     .date(d => new Date(d.date))
     .mouseover(showItemTooltip)
-    .mouseout(hideTooltip);
+    .mouseout(hideTooltip)
+    .xScale((scale) => {
+        if (!weekdayScale) {
+            return scale;
+        }
+
+        const templateScale = d3.scale.linear();
+        var newScale = function(x) {
+            if (typeof x === "number") {
+                return templateScale(x);
+            }
+            return templateScale(weekday(x));
+        };
+        for (var prop in templateScale) {
+            newScale[prop] = templateScale[prop];
+        }
+
+        newScale.range(scale.range())
+            .domain(scale.domain().map(d => weekday(d)));
+
+        newScale.invert = weekday.invert;
+        newScale.ticks = scale.ticks;
+        return newScale;
+    })
+    .axisFormat((axis) => {
+        if (weekdayScale && !('hasWeekdayFormat' in axis)) {
+            const oldFormat = axis.tickFormat();
+            axis.hasWeekdayFormat = true;
+            axis.tickFormat(d => oldFormat(weekday.invert(d)));
+        }
+    });
 
 const getData = (projects_data, filter) => {
     var result = [];
@@ -171,68 +229,77 @@ const zoomUpdate = (element, old_zoom) => {
     };
 };
 
-const chart = makeChart();
-
 const subtitle = d3.select('#subchart-title');
 const subelement = d3.select('#subchart-holder');
 
-chart.start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
-    .end(new Date(data['max_date'][0]))
-    .dropsDraw(function (drops, newDrops, scales, configuration, line_count, svg) {
-        drops.each(function dropDraw(d, idx) {
-            if (d.type == "sprint_start") {
-                var drop = d3.select(this);
-                var line_id = 'sprint-lines-' + line_count
-                var id = 'line-drop-' + line_count + '-' + idx;
+const selectSprint = (element) => {
+    var d = element.data()[0];
+    d3.select('.sprint.selected').classed('selected', false);
+    const subdata = getData(data['projects'], (pdata, project) => {
+        if (project == d.project_name) {
+            return pdata.filter(pd => pd.sprint_name == d.sprint_name);
+        }
+        return false;
+    });
+    if (subdata) {
+        subtitle.text(d.sprint_name);
+        subelement.datum(subdata);
+        const subchart = makeChart();
+        subchart.start(new Date(d.date)).end(new Date(d.end_date));
+        subchart(subelement);
+        zoomUpdate(subelement).reset();
+        element.classed('selected', true);
+    }
+};
 
-                var sprints = d3.select(svg[0][0].parentNode).selectAll('#' + line_id).data([line_count]);
-                sprints.enter().insert('g', () => this.parentNode.parentNode)
-                    .attr('id', line_id).classed('sprints', true)
-                    .attr('clip-path', 'url(#drops-container-clipper)')
-                    .attr('transform', `translate(0, ${line_count*configuration.lineHeight})`);
+const buildMainChart = () => {
+    chart = makeChart();
 
-                var sprint = sprints.selectAll('#' + id).data([idx]);
-                sprint.enter().append('rect')
-                    .classed('sprint', true)
-                    .attr({
-                        id: id,
-                        height: configuration.lineHeight
-                    })
-                    .on('click', function() {
-                        d3.select('.sprint.selected').classed('selected', false);
-                        const subdata = getData(data['projects'], (pdata, project) => {
-                            if (project == d.project_name) {
-                                return pdata.filter(pd => pd.sprint_name == d.sprint_name);
-                            }
-                            return false;
+    chart.start(new Date(new Date().getTime() - 3600000 * 24 * 365)) // one year ago
+        .end(new Date(data['max_date'][0]))
+        .dropsDraw(function (drops, newDrops, scales, configuration, line_count, svg) {
+            drops.each(function dropDraw(d, idx) {
+                if (d.type == "sprint_start") {
+                    var drop = d3.select(this);
+                    var line_id = 'sprint-lines-' + line_count;
+                    var id = 'line-drop-' + line_count + '-' + idx;
+
+                    var sprints = d3.select(svg[0][0].parentNode).selectAll('#' + line_id).data([line_count]);
+                    sprints.enter().insert('g', () => this.parentNode.parentNode)
+                        .attr('id', line_id).classed('sprints', true)
+                        .attr('clip-path', 'url(#drops-container-clipper)')
+                        .attr('transform', `translate(0, ${line_count*configuration.lineHeight})`);
+
+                    var sprint = sprints.selectAll('#' + id).data([d]);
+                    sprint.enter().append('rect')
+                        .classed('sprint', true)
+                        .attr({
+                            id: id,
+                            height: configuration.lineHeight
+                        })
+                        .on('click', function() {
+                            selectSprint(d3.select(this));
+                        })
+                        .on('mouseover', () => showSprintTooltip(d))
+                        .on('mouseout', hideTooltip)
+                        .on('mousemove', () => {
+                            var event = d3.event;
+                            requestAnimationFrame(() => setTooltipLocation(event))
                         });
-                        if (subdata) {
-                            subtitle.text(d.sprint_name);
-                            subelement.datum(subdata);
-                            const subchart = makeChart();
-                            subchart.start(new Date(d.date)).end(new Date(d.end_date));
-                            subchart(subelement);
-                            zoomUpdate(subelement).reset();
-                            d3.select(this).classed('selected', true);
-                        }
-                    })
-                    .on('mouseover', () => showSprintTooltip(d))
-                    .on('mouseout', hideTooltip)
-                    .on('mousemove', () => {
-                        var event = d3.event;
-                        requestAnimationFrame(() => setTooltipLocation(event))
+
+                    sprint.attr({
+                        x: +drop.attr('cx') + 10,
+                        width: scales.x(new Date(d.end_date)) - scales.x(new Date(d.date))
                     });
 
-                sprint.attr({
-                    x: +drop.attr('cx') + 10,
-                    width: scales.x(new Date(d.end_date)) - scales.x(new Date(d.date))
-                });
-
-                sprint.exit().remove();
-                sprints.exit();
-            }
+                    sprint.exit().remove();
+                    sprints.exit();
+                }
+            });
         });
-    });
+};
+
+buildMainChart();
 
 var type_filter = {};
 const filterElement = d3.select('#type-filter');
@@ -244,7 +311,7 @@ types.forEach(t => {
         .property('checked', true)
         .on('change', function() {
             type_filter[t] = this.checked;
-            fillChart();
+            updateChart();
             d3.select(this.parentNode).select('.sample circle')
                 .attr('fill', this.checked ? colors(t) : 'transparent');
         });
@@ -282,7 +349,7 @@ const fillChart = () => {
 
 fillChart();
 d3.select(window).on("resize", () => {
-    requestAnimationFrame(() => fillChart())
+    requestAnimationFrame(() => updateChart())
 });
 
 const nav = d3.select('nav').append('ul');

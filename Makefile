@@ -2,7 +2,7 @@
 install:
 	npm install
 
-bundle.js: index.js data.json locales.json
+bundle.js: index.js weekday.js data.json locales.json
 	./node_modules/webpack/bin/webpack.js --progress --devtool source-map index.js bundle.js
 
 .PHONY: clean
