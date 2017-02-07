@@ -1,42 +1,13 @@
 const d3 = require('d3');
 
 module.exports = (function() {
+    // Epoch year used in all calculations for weekday numbers.
     const FROM_YEAR = 1970;
+    // Number of seconds in a day, to provide a fraction of the day in weekday numbers.
     const DAY_SECONDS = 24 * 60 * 60;
+    // Caches to speed up the search for weekday numbers or year counts.
     var weekdaysSinceYear = {};
     var weekdaysInYears = [];
-
-    function weekdaysUntilYear(year) {
-        if (year in weekdaysSinceYear) {
-            return weekdaysSinceYear[year];
-        }
-        const startYear = year;
-        var weekdays = 0;
-        while (--year >= FROM_YEAR) weekdays += weekdaysInYear(year);
-        weekdaysSinceYear[startYear] = weekdays;
-        return weekdays;
-    }
-
-    function yearFromWeekdays(weekdays) {
-        var year = FROM_YEAR, totalYearWeekdays = 0,
-            yearWeekdays;
-
-        var cacheYear = d3.bisectRight(weekdaysInYears, weekdays);
-        if (cacheYear < weekdaysInYears.length) {
-            return [FROM_YEAR + cacheYear, weekdays - (weekdaysInYears[cacheYear-1] | 0)];
-        }
-
-        while ((yearWeekdays = weekdaysInYear(year)) <= weekdays) {
-            ++year;
-            totalYearWeekdays += yearWeekdays;
-            weekdaysInYears[year - FROM_YEAR - 1] = totalYearWeekdays;
-            weekdays -= yearWeekdays;
-        }
-
-        weekdaysInYears[year - FROM_YEAR] = totalYearWeekdays + weekdaysInYear(year);
-
-        return [year, weekdays];
-    }
 
     // Returns the weekday number for the given date relative to January 1, 1970.
     function weekday(date) {
@@ -66,6 +37,41 @@ module.exports = (function() {
         seconds = seconds % 60;
         return new Date(year, 0, yearday, hours, minutes, seconds);
     };
+
+    // Count the number of weekdays in all years since the epoch, until the specified year.
+    // This excludes the weekdays in that year.
+    function weekdaysUntilYear(year) {
+        if (year in weekdaysSinceYear) {
+            return weekdaysSinceYear[year];
+        }
+        const startYear = year;
+        var weekdays = 0;
+        while (--year >= FROM_YEAR) weekdays += weekdaysInYear(year);
+        weekdaysSinceYear[startYear] = weekdays;
+        return weekdays;
+    }
+
+    // Determine the year for a date specified by its weekdays.
+    function yearFromWeekdays(weekdays) {
+        var year = FROM_YEAR, totalYearWeekdays = 0,
+            yearWeekdays;
+
+        var cacheYear = d3.bisectRight(weekdaysInYears, weekdays);
+        if (cacheYear < weekdaysInYears.length) {
+            return [FROM_YEAR + cacheYear, weekdays - (weekdaysInYears[cacheYear-1] | 0)];
+        }
+
+        while ((yearWeekdays = weekdaysInYear(year)) <= weekdays) {
+            ++year;
+            totalYearWeekdays += yearWeekdays;
+            weekdaysInYears[year - FROM_YEAR - 1] = totalYearWeekdays;
+            weekdays -= yearWeekdays;
+        }
+
+        weekdaysInYears[year - FROM_YEAR] = totalYearWeekdays + weekdaysInYear(year);
+
+        return [year, weekdays];
+    }
 
     // Returns the number of weekdays in the specified year.
     function weekdaysInYear(year) {
