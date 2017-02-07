@@ -1,3 +1,5 @@
+const d3 = require('d3');
+
 module.exports = (function() {
     const FROM_YEAR = 1970;
     const DAY_SECONDS = 24 * 60 * 60;
@@ -8,9 +10,10 @@ module.exports = (function() {
         if (year in weekdaysSinceYear) {
             return weekdaysSinceYear[year];
         }
+        const startYear = year;
         var weekdays = 0;
         while (--year >= FROM_YEAR) weekdays += weekdaysInYear(year);
-        weekdaysSinceYear[year] = weekdays;
+        weekdaysSinceYear[startYear] = weekdays;
         return weekdays;
     }
 

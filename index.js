@@ -135,12 +135,15 @@ const makeChart = () => d3.chart.eventDrops()
             .domain(scale.domain().map(d => weekday(d)));
 
         newScale.invert = weekday.invert;
-        newScale.ticks = scale.ticks(interval, step);
+        newScale.ticks = scale.ticks;
         return newScale;
     })
     .axisFormat((axis) => {
-        const oldFormat = axis.tickFormat();
-        axis.tickFormat(d => oldFormat(weekday.invert(d)));
+        if (!('hasNewFormat' in axis)) {
+            const oldFormat = axis.tickFormat();
+            axis.hasNewFormat = true;
+            axis.tickFormat(d => oldFormat(weekday.invert(d)));
+        }
     });
 
 const getData = (projects_data, filter) => {
