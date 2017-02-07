@@ -117,11 +117,12 @@ var weekdayScale = true;
 d3.select('[data-weekday-scale]').property('checked', weekdayScale).on('change', function() {
     weekdayScale = this.checked;
     buildMainChart();
+    updateChart();
 });
 
 const tf = locale.timeFormat(localeSpec.longDate);
 const dateFormat = (d) => {
-    if (weekdayScale && typeof d === "number") {
+    if (typeof d === "number") {
         d = weekday.invert(d);
     }
     return tf(d);
