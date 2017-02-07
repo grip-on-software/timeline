@@ -113,7 +113,7 @@ const updateChart = () => {
 };
 
 var chart;
-var weekdayScale = true;
+var weekdayScale = false;
 d3.select('[data-weekday-scale]').property('checked', weekdayScale).on('change', function() {
     weekdayScale = this.checked;
     buildMainChart();
