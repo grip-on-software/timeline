@@ -1,4 +1,4 @@
-LIBS=$(addprefix lib/,index.js locales.js tooltip.js weekday.js zoom.js)
+LIBS=$(wildcard lib/*.js)
 OPT=--optimize-minimize --optimize-occurence-order --optimize-dedupe
 
 .PHONY: install
