@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = {
     module: {
         loaders: [
@@ -5,5 +7,6 @@ module.exports = {
             { test: /\.json$/, loader: "json" },
             { test: /\.css$/, loader: "style!css?sourceMap" }
         ]
-    }
+    },
+    plugins: [ new webpack.IgnorePlugin(/~$/) ]
 };
