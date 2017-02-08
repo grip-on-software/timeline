@@ -1,4 +1,5 @@
 LIBS=$(addprefix lib/,index.js locales.js tooltip.js weekday.js zoom.js)
+OPT=--optimize-minimize --optimize-occurence-order --optimize-dedupe
 
 .PHONY: install
 install:
@@ -6,9 +7,13 @@ install:
 
 .PHONY: build
 build: public/bundle.js
+
+.PHONY: debug
+debug: OPT=
+debug: clean public/bundle.js
 	
 public/bundle.js: $(LIBS) data.json locales.json
-	./node_modules/webpack/bin/webpack.js --optimize-minimize --optimize-occurence-order --optimize-dedupe --progress --devtool source-map lib/index.js public/bundle.js
+	./node_modules/webpack/bin/webpack.js $(OPT) --progress --devtool source-map lib/index.js public/bundle.js
 
 .PHONY: clean
 clean:
