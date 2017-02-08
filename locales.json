@@ -22,7 +22,9 @@
             "credits": "Gebaseerd op %s uitgegeven onder %s, met dank aan %s en %s.",
             "tooltip-item-message": "Tijdens sprint '%s' op %s",
             "tooltip-sprint-message": "Van %s tot %s",
-            "weekday-scale": "Schaal zonder weekends"
+            "weekday-scale": "Schaal zonder weekends",
+            "subchart-events": "Gebeurtenissen",
+            "subchart-commits": "Commits"
         },
         "types": {
             "sprint_start": "Start van sprint",
@@ -30,7 +32,8 @@
             "rank_change": "Verandering van rang",
             "storypoint_change": "Verandering van punten",
             "red_metric": "Rode metriek",
-            "impediment": "Impediment"
+            "impediment": "Impediment",
+            "commits": "Commit"
         }
     },
     "en": {
@@ -51,7 +54,9 @@
         "messages": {
             "tooltip-item-message": "In sprint '%s' on %s",
             "tooltip-sprint-message": "From %s to %s",
-            "weekday-scale": "Scale without weekends"
+            "weekday-scale": "Scale without weekends",
+            "subchart-events": "Events",
+            "subchart-commits": "Commits"
         },
         "types": {
             "sprint_start": "Sprint start",
@@ -59,7 +64,8 @@
             "rank_change": "Rank change",
             "storypoint_change": "Story point change",
             "red_metric": "Red metric",
-            "impediment": "Impediment"
+            "impediment": "Impediment",
+            "commits": "Commit"
         }
     }
 }

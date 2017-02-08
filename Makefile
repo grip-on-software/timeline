@@ -12,12 +12,14 @@ build: public/bundle.js
 debug: OPT=
 debug: clean public/bundle.js
 	
-public/bundle.js: $(LIBS) data.json locales.json
+public/bundle.js: $(LIBS) data/data.json locales.json
 	./node_modules/webpack/bin/webpack.js $(OPT) --progress --devtool source-map lib/index.js public/bundle.js
+	rm -rf public/data/
+	cp -r data/ public/data/
 
 .PHONY: clean
 clean:
-	rm -rf public/bundle.js public/bundle.js.map
+	rm -rf public/bundle.js public/bundle.js.map public/data/
 
 .PHONY: realclean
 realclean: clean
