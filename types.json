@@ -1,0 +1,34 @@
+[
+    {
+        "name": "sprint_start",
+        "enabled": true
+    },
+    {
+        "name": "rank_change",
+        "enabled": false
+    },
+    {
+        "name": "storypoint_change",
+        "enabled": true
+    },
+    {
+        "name": "red_metric",
+        "enabled": true
+    },
+    {
+        "name": "impediment",
+        "enabled": true
+    },
+    {
+        "name": "sprint_end",
+        "enabled": true
+    },
+    {
+        "name": "story",
+        "enabled": false
+    },
+    {
+        "name": "commits",
+        "subchart": true
+    }
+]

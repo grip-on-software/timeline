@@ -96,9 +96,9 @@ nav li.selected a {
 	margin: 0 auto 0 10%;
 }
 
-#type-filter {
+#legend {
 	text-align: right;
-	padding-right: 7rem;
+	padding-right: 10%;
 }
 
 #type-filter input {
@@ -107,6 +107,12 @@ nav li.selected a {
 
 #type-filter svg {
 	margin: 0 0.3rem 0 0.3rem;
+}
+
+#type-filter-tip {
+	color: #6a6a6a;
+	font-size: .85rem;
+	padding-top: .5rem;
 }
 
 .sprint {

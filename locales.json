@@ -19,6 +19,8 @@
             "zoom-in": "Inzoomen",
             "zoom-out": "Uitzoomen",
             "zoom-reset": "Zoom resetten",
+            "legend": "Legenda:",
+            "type-filter-tip": "Tip: Pas de tijdlijn aan door verschillende gebeurtenissen uit de legenda te kiezen.",
             "credits": "Gebaseerd op %s uitgegeven onder %s, met dank aan %s en %s.",
             "tooltip-item-message": "Tijdens sprint '%s' op %s",
             "tooltip-sprint-message": "Van %s tot %s",
@@ -55,6 +57,8 @@
         "shortMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         "language": "English",
         "messages": {
+            "legend": "Legend:",
+            "type-filter-tip": "Tip: Change the timeline by selecting one or more events from the legend.",
             "tooltip-item-message": "In sprint '%s' on %s",
             "tooltip-sprint-message": "From %s to %s",
             "weekday-scale": "Scale without weekends",
