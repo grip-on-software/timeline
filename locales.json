@@ -23,6 +23,8 @@
             "tooltip-item-message": "Tijdens sprint '%s' op %s",
             "tooltip-sprint-message": "Van %s tot %s",
             "weekday-scale": "Schaal zonder weekends",
+            "subchart-title": "%s: %s",
+            "subchart-no-data": "Er is geen data om voor deze sprint te tonen.",
             "subchart-events": "Gebeurtenissen",
             "subchart-commits": "Commits"
         },
@@ -33,7 +35,8 @@
             "storypoint_change": "Verandering van punten",
             "red_metric": "Rode metriek",
             "impediment": "Impediment",
-            "commits": "Commit"
+            "commits": "Commit",
+            "story": "User story"
         }
     },
     "en": {
@@ -55,6 +58,8 @@
             "tooltip-item-message": "In sprint '%s' on %s",
             "tooltip-sprint-message": "From %s to %s",
             "weekday-scale": "Scale without weekends",
+            "subchart-title": "%s: %s",
+            "subchart-no-data": "There is no data to show for this sprint.",
             "subchart-events": "Events",
             "subchart-commits": "Commits"
         },
@@ -65,7 +70,8 @@
             "storypoint_change": "Story point change",
             "red_metric": "Red metric",
             "impediment": "Impediment",
-            "commits": "Commit"
+            "commits": "Commit",
+            "story": "User story"
         }
     }
 }
