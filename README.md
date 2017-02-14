@@ -15,11 +15,11 @@ retrieve all dependencies.
 In order to build the timeline web-based interface, you need a directory `data` 
 containing a main file `data/data.json`, as well as other JSON files named 
 after the event they describe and possibly split out into different project 
-directories and Scrum sprints. See [the data format](#Format) for more details.
+directories and Scrum sprints. See [the data format](#format) for more details.
 
 Another option for installation and deployment is to use a Docker container 
-image. Use `docker build -t ictu/gros-data-analysis .` to create the image with 
-all dependencies. If the directory already contains a prepopulated `data` 
+image. Use `docker build -t ictu/gros-timeline .` to create the image with all 
+dependencies. If the directory already contains a prepopulated `data` 
 directory, then you can directly start a web server in the Docker container 
 using `docker run -P --rm ictu/gros-timeline`. This opens a port on the 
 localhost where you can connect to in order to find the timeline.
@@ -84,5 +84,5 @@ build step. This section describes the format of these files.
 
 Timeline is released under the [MIT 
 License](https://opensource.org/licenses/MIT). Some parts are based on 
-[https://github.com/lhelwerd/EventDrops](EventDrops), also released under the 
-MIT License.
+[EventDrops](https://github.com/lhelwerd/EventDrops) (fork), also released 
+under the MIT License.
