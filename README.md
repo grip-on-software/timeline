@@ -33,9 +33,9 @@ image into the build job, and then run the container as follows:
 
 ```sh
 docker pull ictu/gros-timeline
-docker run --rm -u `id -u`:`id -g` -v `pwd`:/work -w /work ictu/gros-timeline 
-/bin/bash -ce 'rm -rf /work/node_modules; ln -s /usr/src/app/node_modules/ 
-/work; make build'
+docker run --rm -u `id -u`:`id -g` -v `pwd`:/work -w /work ictu/gros-timeline \
+  /bin/bash -ce 'rm -rf /work/node_modules; \
+  ln -s /usr/src/app/node_modules/ /work; make build'
 ```
 
 ## Features
