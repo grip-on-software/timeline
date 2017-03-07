@@ -45,7 +45,7 @@ docker run --rm -u `id -u`:`id -g` -v `pwd`:/work -w /work ictu/gros-timeline \
 - Different time scales: normal, weekday (mapping weekends to workdays)
 - Responsive display, scales when resizing
 - Dynamic type filter to simplify the timeline for only showing certain events. 
-  Initial type filter is configurable in `types.json`.
+  Initial type filter is configurable in `data/types.json`.
 - Subchart showing additional events during a specified range of a development 
   cycle, with chunked loading of data
 - Fully translatable interface
@@ -79,6 +79,11 @@ build step. This section describes the format of these files.
   The events belong to a specific project name and occur during or around 
   a range defined by the `sprint_start` event with the `sprint_id` identifier. 
   Currently, this format is only used by the `commits` type.
+- `data/types.json`: Registry of available types and their initial filtering 
+  settings. Contents is a JSON list with object entries, each containing at 
+  least a `name` whose value is the `type` used in the various data files.
+  For non-subchart types, `enabled` determines the inital filter state. 
+  Subchart types are configured as such with a `subchart` key.
 
 ## License
 
