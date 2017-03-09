@@ -210,6 +210,21 @@ nav li.selected a {
     color: #777;
 }
 
+.tooltip dl {
+	-moz-column-count: 2;
+	-webkit-column-count: 2;
+	column-count: 2;
+}
+
+.tooltip dt {
+	float: left;
+	padding-right: 1rem;
+}
+
+.tooltip dd {
+	font-weight: bold;
+}
+
 footer {
     text-align: center;
     color: #888;
