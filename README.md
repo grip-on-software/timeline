@@ -79,6 +79,9 @@ build step. This section describes the format of these files.
   The events belong to a specific project name and occur during or around 
   a range defined by the `sprint_start` event with the `sprint_id` identifier. 
   Currently, this format is only used by the `commits` type.
+- `data/features.json`: Contents is an object where keys are project names, and
+  values are objects with sprint identifiers as keys. For each sprint, there is
+  an object which has key-value pairs describing attributes of that time range.
 - `data/types.json`: Registry of available types and their initial filtering 
   settings. Contents is a JSON list with object entries, each containing at 
   least a `name` whose value is the `type` used in the various data files.
