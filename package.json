@@ -1,12 +1,28 @@
 {
-  "name": "@hqlib/timeline",
+  "name": "@ictu/scrum-timeline",
   "version": "0.0.1",
   "description": "A time based interactive visualization of Scrum sprint data.",
   "license": "MIT",
   "author": "Leon Helwerda <l.s.helwerda@liacs.leidenuniv.nl>",
   "files": [
-    "index.*"
+    "lib/*.js",
+    "public/favicon.ico",
+    "public/index.css",
+    "public/index.html",
+    "locales.json",
+    "README.md"
   ],
+  "directories": {
+      "lib": "lib"
+  },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/ICTU/scrum-timeline"
+  },
+  "homepage": "https://github.com/ICTU/scrum-timeline",
+  "bugs": {
+      "url": "https://github.com/ICTU/scrum-timeline/issues"
+  },
   "scripts": {
     "prepublish": "make build",
     "start": "make run"
