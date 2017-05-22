@@ -235,3 +235,24 @@ footer {
 	right: 0;
 	bottom: 0;
 }
+
+.burndown-chart {
+	margin-left: 100px;
+}
+
+.burndown-chart .axis path,
+.burndown-chart .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.burndown-chart .x.axis path {
+  display: none;
+}
+
+.burndown-chart .line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
