@@ -17,6 +17,9 @@ public/bundle.js: $(LIBS) data/data.json locales.json
 	rm -rf public/data/
 	cp -r data/ public/data/
 
+watch:
+	./node_modules/webpack/bin/webpack.js $(OPT) --watch --progress --devtool source-map lib/index.js public/bundle.js
+
 .PHONY: clean
 clean:
 	rm -rf public/bundle.js public/bundle.js.map public/data/

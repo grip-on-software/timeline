@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var WebpackNotifierPlugin = require('webpack-notifier');
 
 module.exports = {
     module: {
@@ -8,5 +9,12 @@ module.exports = {
             { test: /\.css$/, loader: "style!css?sourceMap" }
         ]
     },
-    plugins: [ new webpack.IgnorePlugin(/~$/) ]
+    plugins: [
+        new webpack.IgnorePlugin(/~$/),
+        new WebpackNotifierPlugin({
+            title: 'Webpack',
+            alwaysNotify: true,
+            excludeWarnings: true
+        })
+    ]
 };

@@ -13,15 +13,15 @@
     "README.md"
   ],
   "directories": {
-      "lib": "lib"
+    "lib": "lib"
   },
   "repository": {
-      "type": "git",
-      "url": "https://github.com/ICTU/scrum-timeline"
+    "type": "git",
+    "url": "https://github.com/ICTU/scrum-timeline"
   },
   "homepage": "https://github.com/ICTU/scrum-timeline",
   "bugs": {
-      "url": "https://github.com/ICTU/scrum-timeline/issues"
+    "url": "https://github.com/ICTU/scrum-timeline/issues"
   },
   "scripts": {
     "prepublish": "make build",
@@ -42,6 +42,7 @@
     "http-server": "latest",
     "json-loader": "^0.5.4",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "webpack-notifier": "^1.5.0"
   }
 }
