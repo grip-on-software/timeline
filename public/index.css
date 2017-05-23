@@ -252,3 +252,7 @@ footer {
   stroke: steelblue;
   stroke-width: 1.5px;
 }
+
+.burndown-chart .point {
+    cursor: pointer;
+}

@@ -29,7 +29,8 @@
             "subchart-title": "%s: %s",
             "subchart-no-data": "Er is geen data om voor deze sprint te tonen.",
             "subchart-events": "Gebeurtenissen",
-            "subchart-commits": "Commits"
+            "subchart-commits": "Commits",
+            "story_points_left": "%s story points over"
         },
         "types": {
             "sprint_start": "Start van sprint",
@@ -67,7 +68,8 @@
             "subchart-title": "%s: %s",
             "subchart-no-data": "There is no data to show for this sprint.",
             "subchart-events": "Events",
-            "subchart-commits": "Commits"
+            "subchart-commits": "Commits",
+            "story_points_left": "%s story points left"
         },
         "types": {
             "sprint_start": "Sprint start",
