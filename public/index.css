@@ -236,10 +236,6 @@ footer {
 	bottom: 0;
 }
 
-.burndown-chart {
-	margin-left: 100px;
-}
-
 .burndown-chart .axis path,
 .burndown-chart .axis line {
   fill: none;
