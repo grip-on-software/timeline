@@ -20,7 +20,7 @@
             "zoom-out": "Uitzoomen",
             "zoom-reset": "Zoom resetten",
             "legend": "Legenda:",
-            "type-filter-tip": "Tip: Pas de tijdlijn aan door verschillende gebeurtenissen uit de legenda te kiezen.",
+            "type-filter-tip": "Tip: Houd shift ingedrukt om meerdere sprints te selecteren.",
             "credits": "Gebaseerd op %s uitgegeven onder %s, met dank aan %s en %s.",
             "tooltip-item-message": "Tijdens sprint '%s' op %s",
             "tooltip-item-message-no-sprint": "Buiten sprint op %s",
@@ -62,7 +62,7 @@
         "language": "English",
         "messages": {
             "legend": "Legend:",
-            "type-filter-tip": "Tip: Change the timeline by selecting one or more events from the legend.",
+            "type-filter-tip": "Tip: Press shift to select multiple sprints.",
             "tooltip-item-message": "In sprint '%s' on %s",
             "tooltip-item-message-no-sprint": "Outside sprint on %s",
             "tooltip-item-message-story-start": "Started on %s",
