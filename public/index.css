@@ -123,6 +123,14 @@ nav li.selected a {
 	cursor: pointer;
 }
 
+.sprint.green {
+	fill: hsl(141, 71%, 28%);
+}
+
+.sprint.red {
+	fill: hsl(348, 100%, 41%);
+}
+
 .sprint:hover {
 	fill-opacity: 0.5;
 }
