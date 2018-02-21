@@ -39,7 +39,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build -t $DOCKER_REGISTRY/gros-timeline .'
+                sh 'docker build -t $DOCKER_REGISTRY/gros-timeline . --build-arg NPM_REGISTRY=$NPM_REGISTRY'
             }
         }
         stage('Push') {
@@ -69,11 +69,11 @@ pipeline {
                 }
             }
             steps {
-                sh 'rm -rf data/'
-                sh 'mv output/ data/'
+                sh 'rm -rf public/data/'
+                sh 'mv output/ public/data/'
                 sh 'rm -rf node_modules/'
                 sh 'ln -s /usr/src/app/node_modules .'
-                sh 'make build'
+                sh 'npm run production -- --env.mixfile=$PWD/webpack.mix.js'
             }
         }
         stage('Status') {
