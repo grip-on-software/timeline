@@ -79,11 +79,11 @@ nav li {
 	list-style: none;
 }
 
-nav li.selected::before {
+nav li.is-active::before {
 	content: "\232A\00A0";
 }
 
-nav li.selected a {
+nav li.is-active a {
 	color: #000000;
 }
 
