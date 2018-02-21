@@ -230,6 +230,9 @@ nav li.is-active a {
 }
 
 .tooltip dd {
+	overflow: hidden;
+	-webkit-column-break-before: avoid;
+	break-before: avoid-column;
 	font-weight: bold;
 }
 
