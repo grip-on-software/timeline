@@ -35,16 +35,6 @@
             "subchart-events": "Gebeurtenissen",
             "subchart-commits": "Commits",
             "story_points_left": "%s story points resterend"
-        },
-        "types": {
-            "sprint_start": "Start van sprint",
-            "sprint_end": "Einde van sprint",
-            "rank_change": "Verandering van rang",
-            "storypoint_change": "Verandering van punten",
-            "red_metric": "Rode metriek",
-            "impediment": "Impediment",
-            "commits": "Commit",
-            "story": "User story"
         }
     },
     "en": {
@@ -78,16 +68,6 @@
             "subchart-events": "Events",
             "subchart-commits": "Commits",
             "story_points_left": "%s story points remaining"
-        },
-        "types": {
-            "sprint_start": "Sprint start",
-            "sprint_end": "Sprint end",
-            "rank_change": "Rank change",
-            "storypoint_change": "Story point change",
-            "red_metric": "Red metric",
-            "impediment": "Impediment",
-            "commits": "Commit",
-            "story": "User story"
         }
     }
 }

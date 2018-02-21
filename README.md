@@ -86,8 +86,12 @@ build step. This section describes the format of these files.
 - `public/data/types.json`: Registry of available types and their initial 
   filtering settings. Contents is a JSON list with object entries, each 
   containing at least a `name` whose value is the `type` used in the various 
-  data files. For non-subchart types, `enabled` determines the inital filter 
-  state. Subchart types are configured as such with a `subchart` key.
+  data files. For non-subchart types, `enabled` determines the initial filter 
+  state. Subchart types are configured as such with a `subchart` key. Each type 
+  may have a `locales` key with an object containing language codes as keys and 
+  names as values, in order to localize the type name.
+- `public/data/locales.json`: Contents is an object containing language codes 
+  as keys, whose values are objects of feature keys and localized names.
 
 ## License
 
