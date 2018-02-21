@@ -70,7 +70,7 @@ pipeline {
             }
             steps {
                 withCredentials([file(credentialsId: 'timeline-config', variable: 'TIMELINE_CONFIGURATION')]) {
-                    sh 'cp $PREDICTION_CONFIGURATION config.json'
+                    sh 'cp $TIMELINE_CONFIGURATION config.json'
                     sh 'rm -rf public/data/'
                     sh 'mv output/ public/data/'
                     sh 'rm -rf node_modules/'
