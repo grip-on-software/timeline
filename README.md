@@ -38,6 +38,10 @@ docker run --rm -u `id -u`:`id -g` -v `pwd`:/work -w /work ictu/gros-timeline \
   ln -s /usr/src/app/node_modules/ /work; npm run production'
 ```
 
+In order to configure the visualization, including options for setting the 
+default language and the link to the sprint details, copy `lib/config.json` to 
+`config.json` and alter its contents there.
+
 ## Features
 
 - Interactive zoom and scroll to restrict the timeline view to certain ranges 

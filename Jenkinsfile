@@ -69,11 +69,14 @@ pipeline {
                 }
             }
             steps {
-                sh 'rm -rf public/data/'
-                sh 'mv output/ public/data/'
-                sh 'rm -rf node_modules/'
-                sh 'ln -s /usr/src/app/node_modules .'
-                sh 'npm run production -- --env.mixfile=$PWD/webpack.mix.js'
+                withCredentials([file(credentialsId: 'timeline-config', variable: 'TIMELINE_CONFIGURATION')]) {
+                    sh 'cp $PREDICTION_CONFIGURATION config.json'
+                    sh 'rm -rf public/data/'
+                    sh 'mv output/ public/data/'
+                    sh 'rm -rf node_modules/'
+                    sh 'ln -s /usr/src/app/node_modules .'
+                    sh 'npm run production -- --env.mixfile=$PWD/webpack.mix.js'
+                }
             }
         }
         stage('Status') {
