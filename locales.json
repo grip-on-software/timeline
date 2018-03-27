@@ -53,8 +53,13 @@
         "shortMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         "language": "English",
         "messages": {
+            "timeline": "Timeline",
+            "zoom-in": "Zoom in",
+            "zoom-out": "Zoom out",
+            "zoom-reset": "Reset zoom",
             "legend": "Legend:",
             "type-filter-tip": "Tip: Press shift to select multiple sprints.",
+            "credits": "Based on %s released under %s, courtesy of %s and %s.",
             "tooltip-item-message": "In sprint '%s' on %s",
             "tooltip-item-message-no-sprint": "Outside sprint on %s",
             "tooltip-item-message-story-start": "Started on %s",

@@ -1,4 +1,8 @@
 {
     "language": "en",
-    "jira_url": ""
+    "jira_url": "",
+    "visualization_url": "",
+    "path": "/",
+    "language_page": "",
+    "language_query": ""
 }
