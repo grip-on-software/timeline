@@ -85,7 +85,7 @@ pipeline {
                 withCredentials([file(credentialsId: 'timeline-config', variable: 'TIMELINE_CONFIGURATION')]) {
                     sh 'cp $TIMELINE_CONFIGURATION config.json'
                     sh 'rm -rf public/data/'
-                    sh 'mkdir -p public/data/'
+                    sh 'mkdir -p public/'
                     sh 'mv output/ public/data/'
                     sh 'rm -rf node_modules/'
                     sh 'ln -s /usr/src/app/node_modules .'
