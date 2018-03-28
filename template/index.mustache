@@ -13,11 +13,15 @@
 		<link rel="apple-touch-icon" href="images/ICTU-LEIDEN.png">
 
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Vollkorn">
-		<link rel="stylesheet" href="index.css">
+		<link rel="stylesheet" href="{{ visualization_url }}/navbar.css">
     </head>
     <body>
+        <nav class="navbar is-link" role="navigation"
+        aria-label="main navigation" id="navbar">
+        </nav>
+
 		<h1 data-message="timeline">Timeline</h1>
-		<article>
+		<article class="section">
 			<div id="chart-canvas">
 				<div id="chart-holder"></div>
 				<div id="buttons">
@@ -36,8 +40,6 @@
 				<div id="subchart-holder"></div>
 			</div>
 		</article>
-		<nav>
-		</nav>
 		<footer>
 			<p data-message="credits">
 			Based on <a href="https://github.com/marmelab/EventDrops">EventDrops</a>
@@ -46,6 +48,7 @@
             and <a href="https://github.com/canalplus">Canal Plus</a>.
 			</p>
 		</footer>
-		<script type="text/javascript" src="./bundle.js"></script>
+		<script type="text/javascript" src="{{ visualization_url }}/manifest.js"></script>
+		<script type="text/javascript" src="{{ visualization_url }}/vendor.js"></script>
     </body>
 </html>
