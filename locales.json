@@ -14,6 +14,14 @@
         "months": ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"],
         "shortMonths": ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"],
         "language": "Nederlands",
+        "burndown": {
+            "initial": "Start van sprint",
+            "scope_add": "Scopewijziging: Uitbreiding van stories",
+            "scope_remove": "Scopewijziging: Vermindering van stories",
+            "points": "Aanpassing van storypunten",
+            "completed": "Afgeronde story",
+            "close": "Sluiten van sprint"
+        },
         "messages": {
             "timeline": "Tijdslijn",
             "zoom-in": "Inzoomen",
@@ -34,7 +42,7 @@
             "subchart-no-data": "Er is geen data om voor deze sprint te tonen.",
             "subchart-events": "Gebeurtenissen",
             "subchart-commits": "Commits",
-            "story_points_left": "%s story points resterend"
+            "story_points_left": "%s: %s story points resterend"
         }
     },
     "en": {
@@ -52,6 +60,14 @@
         "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         "shortMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         "language": "English",
+        "burndown": {
+            "initial": "Sprint starting",
+            "scope_add": "Scope change: Story addition",
+            "scope_remove": "Scope change: Story removal",
+            "points": "Story points change",
+            "completed": "Story completion",
+            "close": "Sprint closing"
+        },
         "messages": {
             "timeline": "Timeline",
             "zoom-in": "Zoom in",
@@ -72,7 +88,7 @@
             "subchart-no-data": "There is no data to show for this sprint.",
             "subchart-events": "Events",
             "subchart-commits": "Commits",
-            "story_points_left": "%s story points remaining"
+            "story_points_left": "%s: %s story points remaining"
         }
     }
 }
