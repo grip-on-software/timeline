@@ -2,7 +2,7 @@
     "language": "en",
     "jira_url": "",
     "visualization_url": "/",
-    "path": "/",
+    "path": ".",
     "language_page": "",
     "language_query": ""
 }
