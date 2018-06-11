@@ -33,6 +33,10 @@ body {
 	top: .2rem;
 }
 
+#buttons [data-feature-threshold] {
+	width: 3rem;
+}
+
 article a {
     color: #ff6e00;
     text-decoration: none;
