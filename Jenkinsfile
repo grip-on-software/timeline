@@ -97,7 +97,6 @@ pipeline {
             }
             steps {
                 withCredentials([file(credentialsId: 'timeline-config', variable: 'TIMELINE_CONFIGURATION')]) {
-                    sh 'cp $TIMELINE_CONFIGURATION config.json'
                     sh 'rm -rf public/data/'
                     sh 'mkdir -p public/'
                     sh 'mv output/ public/data/'
