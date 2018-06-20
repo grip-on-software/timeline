@@ -25,6 +25,13 @@ mix.setPublicPath('public/')
             'public/**/*.css'
         ]
     })
+    .babelConfig({
+        "env": {
+            "test": {
+                "plugins": [ "istanbul" ]
+            }
+        }
+    })
     .webpackConfig({
         output: {
             path: path.resolve('public/'),
