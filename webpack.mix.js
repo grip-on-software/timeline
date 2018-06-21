@@ -1,6 +1,6 @@
-let fs = require('fs'),
-    mix = require('laravel-mix');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('fs'),
+      mix = require('laravel-mix'),
+      HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let config = process.env.TIMELINE_CONFIGURATION;
 if (config === undefined || !fs.existsSync(config)) {
