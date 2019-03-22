@@ -40,7 +40,7 @@ body {
 }
 
 article a {
-    color: #ff6e00;
+    color: #f56400;
     text-decoration: none;
 }
 
@@ -202,7 +202,7 @@ article {
 
 .tooltip p {
     font-size: .9rem;
-    color: #777;
+    color: #666;
 }
 
 .tooltip dl {
@@ -225,13 +225,17 @@ article {
 
 footer {
     text-align: center;
-    color: #888;
+    color: #666;
     font-size: .8rem;
 	padding: 1rem;
 	position: absolute;
 	left: 0;
 	right: 0;
 	bottom: 0;
+}
+
+footer a {
+    color: #2a6dda;
 }
 
 .burndown-chart .axis path,

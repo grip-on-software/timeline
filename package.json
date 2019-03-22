@@ -32,7 +32,7 @@
     "pretest": "cross-env NODE_ENV=test webpack --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "dependencies": {
-    "@gros/visualization-ui": "^0.5.0",
+    "@gros/visualization-ui": "^0.5.3",
     "cross-env": "^5.2.0",
     "d3": "3.5.17",
     "event-drops": "https://github.com/lhelwerd/EventDrops/releases/download/v0.3.0-alpha1-lhelwerd7/release.tar.gz",
@@ -40,21 +40,22 @@
     "javascript-natural-sort": "^0.7.1",
     "lodash": "^4.17.11",
     "lru-cache": "^4.1.5",
-    "mousetrap": "^1.6.2",
-    "mustache-loader": "^1.4.1",
+    "mousetrap": "^1.6.3",
+    "mustache-loader": "^1.4.3",
     "smoothscroll": "^0.4.0",
     "xhr-promise": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.2.0",
-    "babel-loader": "^8.0.4",
-    "babel-plugin-istanbul": "^5.1.0",
+    "@babel/preset-env": "^7.4.2",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-istanbul": "^5.1.1",
     "browser-sync": "^2.26.3",
     "browser-sync-webpack-plugin": "^2.2.2",
-    "laravel-mix": "^4.0.6",
-    "nyc": "^13.1.0",
-    "resolve-url-loader": "^2.3.1",
-    "sass": "^1.15.2",
-    "sass-loader": "^7.1.0"
+    "laravel-mix": "^4.0.15",
+    "nyc": "^13.3.0",
+    "resolve-url-loader": "^2.3.2",
+    "sass": "^1.17.3",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.6.10"
   }
 }
