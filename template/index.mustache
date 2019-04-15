@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <title data-message="timeline">Timeline</title>
 
-		<meta name="apple-mobile-web-app-title" content="Timeline">
-		<meta name="apple-touch-fullscreen" content="yes">
-		<meta name="viewport" content="width=device-width">
+        <meta name="apple-mobile-web-app-title" content="Timeline">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <meta name="viewport" content="width=device-width">
 
-		<link rel="shortcut icon" href="{{ visualization_url }}favicon.ico">
-		<link rel="icon" href="{{ visualization_url }}images/ICTU-LEIDEN.png">
-		<link rel="apple-touch-icon" href="{{ visualization_url }}images/ICTU-LEIDEN.png">
+        <link rel="shortcut icon" href="{{ visualization_url }}favicon.ico">
+        <link rel="icon" href="{{ visualization_url }}images/ICTU-LEIDEN.png">
+        <link rel="apple-touch-icon" href="{{ visualization_url }}images/ICTU-LEIDEN.png">
 
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Vollkorn">
-		<link rel="stylesheet" href="{{ visualization_url }}navbar.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Vollkorn">
+        <link rel="stylesheet" href="{{ visualization_url }}navbar.css">
     </head>
     <body>
         <nav class="navbar is-link" role="navigation"
@@ -21,36 +21,38 @@
         </nav>
 
         <main role="main">
-		    <h1 data-message="timeline">Timeline</h1>
-		    <article class="section">
-			    <div id="chart-canvas">
-				    <div id="chart-holder"></div>
-				    <div id="buttons">
-					    <label><span data-message="feature-label">Label:</span> <select data-feature-label=""></select> &gt; <input type="number" value="0" data-feature-threshold=""></label>
-					    <label><input data-weekday-scale="" type="checkbox"> <span data-message="weekday-scale">Weekday scale</span></label>
-					    <button data-zoom-reset="" data-message="zoom-reset">Reset zoom</button>
-					    <button data-zoom="+1" data-message="zoom-in">Zoom in</button>
-					    <button data-zoom="-1" data-message="zoom-out">Zoom out</button>
-				    </div>
-				    <div id="legend">
-					    <span data-message="legend">Legend</span>
-					    <span id="type-filter"></span>
-					    <div id="type-filter-tip" data-message="type-filter-tip"></div>
-				    </div>
-				    <h2 id="subchart-title"></h2>
-				    <div id="subchart-holder"></div>
-			    </div>
-		    </article>
+            <h1 data-message="timeline">Timeline</h1>
+            <article class="section">
+                <div id="chart-canvas">
+                    <div id="chart-holder"></div>
+                    <div id="buttons">
+                        <label><span data-message="feature-label">Label:</span> <select data-feature-label=""></select> &gt; <input type="number" value="0" data-feature-threshold=""></label>
+                        <label><input data-weekday-scale="" type="checkbox"> <span data-message="weekday-scale">Weekday scale</span></label>
+                        <button data-zoom-reset="" data-message="zoom-reset">Reset zoom</button>
+                        <button data-zoom="+1" data-message="zoom-in">Zoom in</button>
+                        <button data-zoom="-1" data-message="zoom-out">Zoom out</button>
+                    </div>
+                    <div id="legend">
+                        <span data-message="legend">Legend</span>
+                        <span id="type-filter"></span>
+                        <div id="type-filter-tip" data-message="type-filter-tip"></div>
+                    </div>
+                    <div id="subchart">
+                        <div id="subchart-title"></div>
+                        <div id="subchart-holder"></div>
+                    </div>
+                </div>
+            </article>
         </main>
-		<footer>
-			<p data-message="credits">
-			Based on <a href="https://github.com/marmelab/EventDrops">EventDrops</a>
-			released under <a href="https://opensource.org/licenses/MIT">MIT license</a>,
-			courtesy of <a href="http://marmelab.com/">marmelab</a>
+        <footer>
+            <p data-message="credits">
+            Based on <a href="https://github.com/marmelab/EventDrops">EventDrops</a>
+            released under <a href="https://opensource.org/licenses/MIT">MIT license</a>,
+            courtesy of <a href="http://marmelab.com/">marmelab</a>
             and <a href="https://github.com/canalplus">Canal Plus</a>.
-			</p>
-		</footer>
-		<script type="text/javascript" src="{{ visualization_url }}manifest.js"></script>
-		<script type="text/javascript" src="{{ visualization_url }}vendor.js"></script>
+            </p>
+        </footer>
+        <script type="text/javascript" src="{{ visualization_url }}manifest.js"></script>
+        <script type="text/javascript" src="{{ visualization_url }}vendor.js"></script>
     </body>
 </html>
