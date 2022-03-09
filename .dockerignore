@@ -1,9 +1,15 @@
 bundle.js
-bundle.js.map
+bundle.js.*
 node_modules
+/config*.json
 data/
 output/
 public/data
+public/fonts
+public/index.html
+public/main.css
+public/mix-manifest.json
+public/hot
 .dockerignore
 .gitignore
 Jenkinsfile
