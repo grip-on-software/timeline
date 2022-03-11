@@ -1,6 +1,9 @@
 @import "node_modules/@gros/visualization-ui/res/index";
 @import "node_modules/event-drops/dist/eventDrops";
 
+/*
+ * Global document structure
+ */
 * {
     margin: 0;
     padding: 0;
@@ -42,14 +45,10 @@ body {
 article a {
     color: #f56400;
     text-decoration: none;
-}
 
-article a:hover {
-    text-decoration: underline;
-}
-
-article a:visited {
-	text-decoration: underline;
+    &:hover, &:visited {
+	    text-decoration: underline;
+    }
 }
 
 h1 {
@@ -74,6 +73,9 @@ article {
 	padding-bottom: 3rem;
 }
 
+/*
+ * Chart
+ */
 #chart-holder {
 	width: 90%;
 }
@@ -88,12 +90,14 @@ article {
 	padding-right: 10%;
 }
 
-#type-filter input {
-	visibility: hidden;
-}
+#type-filter {
+    input {
+	    visibility: hidden;
+    }
 
-#type-filter svg {
-	margin: 0 0.3rem 0 0.3rem;
+    svg {
+	    margin: 0 0.3rem 0 0.3rem;
+    }
 }
 
 #type-filter-tip {
@@ -108,23 +112,22 @@ article {
 	stroke-width: 1px;
 	fill-opacity: 0.2;
 	cursor: pointer;
-}
 
-.sprint.green {
-	fill: hsl(141, 71%, 28%);
-}
+    &.above {
+	    fill: hsl(141, 71%, 28%);
+    }
+    &.below {
+	    fill: #303030;
+    }
 
-.sprint.red {
-	fill: hsl(348, 100%, 41%);
-}
+    &:hover {
+	    fill-opacity: 0.5;
+    }
 
-.sprint:hover {
-	fill-opacity: 0.5;
-}
-
-.sprint.selected {
-	fill: #2222ee;
-	fill-opacity: 0.3;
+    &.selected {
+	    fill: #2222ee;
+	    fill-opacity: 0.3;
+    }
 }
 
 .extremum {
@@ -144,6 +147,9 @@ article {
     cursor: pointer;
 }
 
+/*
+ * Tooltips (large ones with HTML contents
+ */
 .tooltip {
     position: absolute;
     background: #fff;
@@ -152,75 +158,94 @@ article {
     padding: .5rem 1rem;
     width: 30rem;
     line-height: 1.4rem;
+
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -.65rem;
+        width: 1rem;
+        height: 1rem;
+        background: #fff;
+        border: 3px solid #e7e7e7;
+        border-width: 3px 0 0 3px;
+        transform: rotate(45deg);
+        z-index: 1;
+    }
+
+    &.left::before {
+        left: 1.65rem;
+    }
+
+    &.right::before {
+        right: 1.65rem;
+    }
+
+    .container {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .content {
+        flex: 1 0 0;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: .9rem;
+        color: #666;
+    }
+
+    dl {
+	    -moz-column-count: 2;
+	    -webkit-column-count: 2;
+	    column-count: 2;
+    }
+
+    dt {
+	    float: left;
+	    padding-right: 1rem;
+    }
+
+    dd {
+	    overflow: hidden;
+	    -webkit-column-break-before: avoid;
+	    break-before: avoid-column;
+	    font-weight: bold;
+    }
 }
 
-.tooltip::before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: -.65rem;
-    width: 1rem;
-    height: 1rem;
-    background: #fff;
-    border: 3px solid #e7e7e7;
-    border-width: 3px 0 0 3px;
-    transform: rotate(45deg);
-    z-index: 1;
-}
+/*
+ * Below the chart
+ */
+.burndown-chart {
+    .axis {
+        path, line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
 
-.tooltip.left::before {
-    left: 1.65rem;
-}
+        &.x path {
+            display: none;
+        }
+    }
 
-.tooltip.right::before {
-    right: 1.65rem;
-}
+    .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+    }
 
-.tooltip .commit {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.tooltip .avatar {
-    width: 5rem;
-    height: 5rem;
-    border-radius: .5rem;
-    margin-right: 1rem;
-    flex: 0 0 5rem;
-}
-
-.tooltip .content {
-    flex: 1 0 0;
-}
-
-.tooltip h3 {
-    font-size: 1rem;
-}
-
-.tooltip p {
-    font-size: .9rem;
-    color: #666;
-}
-
-.tooltip dl {
-	-moz-column-count: 2;
-	-webkit-column-count: 2;
-	column-count: 2;
-}
-
-.tooltip dt {
-	float: left;
-	padding-right: 1rem;
-}
-
-.tooltip dd {
-	overflow: hidden;
-	-webkit-column-break-before: avoid;
-	break-before: avoid-column;
-	font-weight: bold;
+    .point {
+        cursor: pointer;
+    }
 }
 
 footer {
@@ -232,29 +257,8 @@ footer {
 	left: 0;
 	right: 0;
 	bottom: 0;
-}
 
-footer a {
-    color: #2a6dda;
-}
-
-.burndown-chart .axis path,
-.burndown-chart .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.burndown-chart .x.axis path {
-  display: none;
-}
-
-.burndown-chart .line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-.burndown-chart .point {
-    cursor: pointer;
+    a {
+        color: #2a6dda;
+    }
 }
