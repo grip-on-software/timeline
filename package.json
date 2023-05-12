@@ -1,27 +1,33 @@
 {
-  "name": "@gros/scrum-timeline",
+  "name": "@gros/timeline",
   "version": "0.0.1",
   "description": "A time based interactive visualization of Scrum sprint data.",
   "license": "MIT",
   "author": "Leon Helwerda <l.s.helwerda@liacs.leidenuniv.nl>",
   "files": [
     "lib/*.js",
+    "public/*.css",
+    "public/*.html",
+    "public/*.js",
+    "public/*.js.LICENSE.txt",
+    "public/fonts/",
     "public/favicon.ico",
-    "public/index.css",
-    "public/index.html",
+    "public/mix-manifest.json",
     "locales.json",
-    "README.md"
+    "res/*.scss"
   ],
   "directories": {
-    "lib": "lib"
+    "dist": "public",
+    "lib": "lib",
+    "res": "res"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ICTU/scrum-timeline"
+    "url": "https://github.com/grip-on-software/timeline.git"
   },
-  "homepage": "https://github.com/ICTU/scrum-timeline",
+  "homepage": "https://github.com/grip-on-software/timeline",
   "bugs": {
-    "url": "https://github.com/ICTU/scrum-timeline/issues"
+    "url": "https://github.com/grip-on-software/timeline/issues"
   },
   "scripts": {
     "start": "/bin/sh -ce 'npm run pretest -- $@ && npm run hot -- $@' --",
@@ -36,7 +42,7 @@
     "cross-env": "^7.0.3",
     "d3": "^3.5.17",
     "event-drops": "https://github.com/lhelwerd/EventDrops/releases/download/v0.3.0-alpha1-lhelwerd7/release.tar.gz",
-    "html-webpack-plugin": "^5.5.0",
+    "html-webpack-plugin": "^5.5.1",
     "javascript-natural-sort": "^0.7.1",
     "lodash": "^4.17.21",
     "lru-cache": "^7.4.2",
@@ -46,16 +52,16 @@
     "xhr-promise": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.16.11",
-    "babel-loader": "^8.2.3",
+    "@babel/preset-env": "^7.21.5",
+    "babel-loader": "^9.1.2",
     "babel-plugin-istanbul": "^6.1.1",
-    "browser-sync": "^2.27.7",
+    "browser-sync": "^2.29.1",
     "browser-sync-webpack-plugin": "^2.3.0",
-    "laravel-mix": "^6.0.43",
+    "laravel-mix": "^6.0.49",
     "nyc": "^15.1.0",
     "resolve-url-loader": "^5.0.0",
-    "sass": "^1.49.9",
-    "sass-loader": "^12.6.0",
-    "vue-template-compiler": "^2.6.14"
+    "sass": "^1.62.1",
+    "sass-loader": "^13.2.2",
+    "vue-template-compiler": "^2.7.14"
   }
 }
