@@ -55,7 +55,8 @@ are known:
 - `language`: The langugage code of the default language of the timeline.
 - `jira_url`: The URL pointing to a Jira instance in order to link to sprints. 
   This is only used as a fallback in case the Jira instance is not defined in 
-  the source data.
+  the source data. If this is also empty, then no link to the Jira instance is 
+  generated in the subchart title.
 - `visualization_url`: The URL to the visualization hub. This may include 
   a protocol and domain name, but does not need to in case all the 
   visualizations and the leaderboard are hosted on the same domain (for example 
