@@ -52,18 +52,18 @@ default language and the link to the sprint details, copy `lib/config.json` to
 `config.json` and alter its contents there. The following configuration items 
 are known:
 
-- `language`: The langugage code of the default language of the timeline.
+- `language`: The language code of the default language of the timeline.
 - `jira_url`: The URL pointing to a Jira instance in order to link to sprints. 
   This is only used as a fallback in case the Jira instance is not defined in 
   the source data. If this is also empty, then no link to the Jira instance is 
   generated in the subchart title.
 - `visualization_url`: The URL to the visualization hub. This may include 
   a protocol and domain name, but does not need to in case all the 
-  visualizations and the leaderboard are hosted on the same domain (for example 
-  in a development environment). The remainder is a path to the root of the 
+  visualizations and the timeline are hosted on the same domain (for example in 
+  a development environment). The remainder is a path to the root of the 
   visualizations, where the dashboard is found and every other visualization 
   has sub-paths below it.
-- `path`: The relative path at which the leaderboard is made available on the 
+- `path`: The relative path at which the timeline is made available on the 
   server. This can remain the default `.` to work just fine.
 
 ## Features
@@ -81,7 +81,9 @@ are known:
 ## Format
 
 In order to build the web interface, certain files are required during the 
-build step. This section describes the format of these files.
+build step. This section describes the format of these files. The 
+`visualization-site` repository contains JSON schema files with specific type 
+descriptions of all the nested fields.
 
 - `public/data/data.json`: Contents are a JSON object with summary data. It 
   contains at least the following keys and values:
@@ -129,6 +131,9 @@ build step. This section describes the format of these files.
   names as values, in order to localize the type name.
 - `public/data/locales.json`: Contents is an object containing language codes 
   as keys, whose values are objects of feature keys and localized names.
+- `public/data/sprint_burndown/[project_name]/sprint_burndown.[sprint_id].json`: 
+  Contents is a JSON list with object entires, each containing `date`, `points` 
+  and `type` keys with changes to the burndown chart.
 
 ## License
 
